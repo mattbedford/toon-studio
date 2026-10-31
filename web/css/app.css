@@ -79,7 +79,7 @@ body {
 @media (max-width: 700px) { .stage { grid-template-columns: 1fr; } }
 .stage figure { margin: 0; }
 .stage figcaption { margin-top: 6px; color: var(--muted); font-size: 15px; text-align: center; }
-.stage canvas { display: block; width: 100%; height: auto; border-radius: 10px; }
+.stage canvas { display: block; max-width: 100%; max-height: 62vh; width: auto; height: auto; margin: 0 auto; border-radius: 10px; }
 .checker {
   border-radius: 10px;
   background: repeating-conic-gradient(#e6e6e6 0 25%, #fff 0 50%) 0 0 / 20px 20px;

@@ -192,10 +192,12 @@ function floodFromEdges(paperLike, width, height) {
 
 // Specks of dust, the dark edge of the table, a corner of another sheet: these
 // survive the flood because they are not paper-like, but they are not the
-// drawing either. Keep the largest connected piece, plus any other piece that
-// is at least a tenth of its size and does not touch the photo's edge (a hat
-// drawn floating above a head, say). Mark the rest as outside.
-const KEEP_FRACTION = 0.1;
+// drawing either. Be conservative: a stick figure is mostly thin, separate
+// pieces (shorts that do not touch the torso, say) and losing one is far worse
+// than keeping a speck. So drop only pieces that are dust-sized relative to
+// the photo, and pieces that touch the photo's edge unless they are the
+// largest piece. Everything else is treated as drawing.
+const DUST_FRACTION = 0.0005;   // of the photo's pixel count
 
 function dropSmallPieces(outside, width, height) {
   const count = width * height;
@@ -227,7 +229,8 @@ function dropSmallPieces(outside, width, height) {
 
   const largest = Math.max(...areas);
   const largestId = areas.indexOf(largest);
-  const keep = areas.map((area, id) => id === largestId || (area >= largest * KEEP_FRACTION && !touchesEdge[id]));
+  const dust = count * DUST_FRACTION;
+  const keep = areas.map((area, id) => id === largestId || (area >= dust && !touchesEdge[id]));
   for (let p = 0; p < count; p += 1) {
     if (!outside[p] && !keep[label[p]]) outside[p] = 1;
   }
