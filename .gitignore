@@ -17,16 +17,8 @@ data/backgrounds/*
 *.key
 secrets/
 
-# ---- Model weights and TorchServe artefacts (large, re-downloadable) ----
-**/model_store/
-**/*.mar
-**/*.pth
-**/*.pt
-**/*.onnx
-**/*.ckpt
-**/*.safetensors
-**/*.bin
-torchserve/logs/
+# ---- Downloaded tools (re-downloadable, checksummed by tools/get-rhubarb.sh) ----
+tools/rhubarb/
 
 # ---- Media outputs and recordings (generated, or hers) ----
 *.mp4
@@ -39,7 +31,7 @@ torchserve/logs/
 *.bvh
 # Allow deliberately committed sample assets only in these folders:
 !web/samples/**
-!engine/tests/fixtures/**
+!tests/fixtures/**
 
 # ---- Python ----
 __pycache__/
@@ -58,8 +50,7 @@ dist/
 .cache/
 *.tsbuildinfo
 
-# ---- Docker ----
-docker-compose.override.yml
+# ---- Logs ----
 *.log
 
 # ---- Editors and OS ----
@@ -78,3 +69,4 @@ tmp/
 scratch/
 *.bak
 *.orig
+.toon-studio.pid

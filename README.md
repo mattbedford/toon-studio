@@ -1,120 +1,118 @@
 # Toon Studio
 
-A small, fully offline cartoon-making studio that runs on your own Linux machine.
+A small, fully offline paper-puppet cartoon studio that runs in your browser from a folder on your own Linux machine.
 
-Draw a character on paper, photograph it, act out its movements in front of a webcam, record its lines, pick a background, and get a finished cartoon as an MP4. Everything happens inside Docker containers on your computer. No accounts, no cloud, no API keys, no outbound network traffic.
+Draw a character on paper, photograph it, drop the photo in. Place the joints yourself (you know better than any computer how many your character has). The studio removes the paper, cuts the drawing along the bones, and gives you a puppet that bends. Act its movements out in front of a webcam, record its lines, pick a background, and export a finished cartoon as an MP4.
+
+No accounts, no cloud, no API keys, no outbound network traffic, no Docker. One script, one browser tab.
 
 It was built for a 13-year-old learning animation, and the design follows one rule:
 
 **Authorship stays with the animator. Only the labour is delegated.**
 
-The character drawings, the voice, the timing, the staging, the story and the movements are all hers. The software does the tedious parts: rigging the drawing, in-betweening, timing mouth shapes to speech, compositing onto a background, and stitching shots into a film. There is no text-to-video, no image generation, and no feature that makes a creative decision on the animator's behalf.
+The drawings, where the joints go, the voice, the timing, the staging, the story and the movements are all hers. The software does the scissors-and-glue work: removing the paper, cutting along the skeleton, bending, timing mouth shapes to speech, compositing onto a background, and stitching shots into a film. There is no image generation and nothing that draws for her.
 
 ## Status
 
-Early scaffolding. Nothing renders yet. The build order below is being worked through in sequence, and each step is ticked when it produces a visible, testable result.
+Being rebuilt step by step after a first attempt proved too heavy (see "History" below). Each step is ticked when it produces something you can click.
 
-- [ ] 1. Repo scaffold, Compose network, TorchServe model server answering `/ping`
-- [ ] 2. One drawing plus one stock motion produces an MP4; joint-correction tool exercised
-- [ ] 3. Engine HTTP API: upload a drawing, poll a job, fetch a render
-- [ ] 4. Web UI: upload, review rig, fix joints, pick background and motion, render, play
-- [ ] 5. Webcam performance capture (MediaPipe in the browser) and landmarks-to-BVH converter
-- [ ] 6. Lip-sync (Rhubarb) and hand-drawn mouth overlay
-- [ ] 7. Assembly: ordered shots plus voice track into one film
+- [ ] 1. Local helper with a strict Content-Security-Policy; drop in a photo; remove the paper to alpha with a slider; save a character
+- [ ] 2. Joint editor: templates, drag, add, delete, rename; wiggle preview
+- [ ] 3. Auto-cut along the bones, mesh puppet that bends, two preset motions; first cartoon
+- [ ] 4. Webcam performance capture (MediaPipe in the browser), smoothing; she acts, it moves
+- [ ] 5. Lip-sync (Rhubarb) with hand-drawn mouth shapes
+- [ ] 6. Backgrounds, shots, voice track, export to MP4
+- [ ] 7. Alternate views per body part, chosen per shot
 
 ## How it works
 
 | Step | What the animator does | What the software does |
 |---|---|---|
-| Character | Draws a figure on paper and photographs or scans it | Detects the figure, finds its joints, builds a rig. The animator checks and corrects the joints before anything else happens. |
-| Performance | Acts the movement out in front of the webcam | MediaPipe Pose tracks body landmarks in the browser. Only joint coordinates are sent to the engine; video frames never leave the browser tab. |
-| Motion | Nothing more | Converts the landmark sequence to a smoothed BVH motion file and retargets it onto the drawing. |
-| Voice | Records the line with a microphone | Rhubarb Lip Sync works out which mouth shape is needed when. |
-| Mouths | Draws a small set of mouth shapes | Pastes the right mouth drawing over each frame at the right time. |
-| Background | Picks one from the bundled pack or drops in her own | Composites the animated character onto it. |
-| Film | Orders the shots | ffmpeg stitches shots and audio into one MP4. |
+| Character | Draws a figure on paper, photographs it, drops the photo in | Removes the paper so the drawing has a transparent background |
+| Skeleton | Picks a template or starts empty, drags joints onto the drawing, adds or removes some | Nothing. This is her call. A wiggle preview shows whether a joint is in the right place. |
+| Puppet | Nothing more | Weights every pixel to the nearest bones and builds a mesh that bends at the joints |
+| Performance | Acts the movement out in front of the webcam | Tracks body landmarks in the browser and copies each limb's angle onto the puppet, smoothed. Video frames never leave the tab. |
+| Voice | Records the line with a microphone | Rhubarb Lip Sync works out which mouth shape is needed when |
+| Mouths | Draws a few mouth shapes | Swaps them in at the right moments |
+| Views | Draws a side view or a front view when a shot needs one | Swaps the part per shot. Mirroring is free. |
+| Film | Orders the shots, picks backgrounds | ffmpeg stitches frames and audio into one MP4 |
 
 ## Requirements
 
-- Linux on x86-64. Developed on LMDE and Debian 13. Other distributions should work.
-- Docker Engine with the Compose plugin (`docker compose`, not the old `docker-compose`).
-- A CPU. No GPU is needed or used. Renders are slower than on a GPU but fine for short shots.
-- A webcam and a microphone, for performance capture and voice. Both are optional if you only use stock motions.
-- Roughly 10 GB of free disk for the container images and model weights. The first build is slow.
-- A modern browser (Firefox or Chromium) for the UI.
+- Linux on x86-64. Developed on LMDE 7 (Debian 13). Other distributions should work.
+- Python 3.11 or newer, as shipped by the distro. No packages to install.
+- `ffmpeg` from your package manager (`sudo apt install ffmpeg`).
+- Rhubarb Lip Sync, downloaded once by `tools/get-rhubarb.sh` (from step 5 onwards).
+- A recent Firefox or Chromium.
+- A webcam and a microphone, for performance capture and voice. Optional if you only use preset motions.
 
 ## Quick start
 
 ```bash
 git clone https://github.com/<your-user>/toon-studio.git
 cd toon-studio
-cp .env.example .env
-docker compose up --build
+./run.sh
 ```
 
-Then open `http://127.0.0.1:8080` in your browser. The port is set in `.env`.
+The script starts the helper on `http://127.0.0.1:8765` and opens it in your browser. Stop it with `./run.sh stop`. Set `TOON_PORT` to use a different port.
 
-The UI is bound to `127.0.0.1` only. It is not reachable from other machines on your network, by design.
+## Privacy and safety, by construction
 
-## Privacy and safety, enforced by design
+This project is public and a child uses the result, so the properties below are built in rather than promised.
 
-This project is public and a child uses the result, so the safety properties are built into the architecture rather than promised in a policy.
+- **Nothing leaves the machine.** The helper listens on 127.0.0.1 only and contains no HTTP client code at all. Both are checked by tests, so a change that broke either would fail the test run. (Kernel-level network denial for an unprivileged process is not something Linux offers without root, so this guarantee is made in code and tests rather than by a firewall.)
+- **The page cannot phone home either.** Every response carries a strict Content-Security-Policy, so the browser refuses to load a script, font, image or request from anywhere but the local helper. There are no CDNs; every library is in `web/vendor/` with its version, licence and checksum listed in `web/vendor/VENDOR.md`.
+- **Webcam frames stay in the browser.** Pose tracking runs in the tab. Only joint coordinates are kept.
+- **No generative content.** There is no image, text or video generation anywhere in the stack, so there is nothing to moderate.
+- **Her work is never filtered and never committed.** Everything personal lives in `data/`, which is ignored by git.
 
-- **Nothing leaves the machine.** Every container runs on a Docker network marked `internal: true`, which has no route to the outside world. The only port published is the web UI, and it is bound to localhost.
-- **No CDNs.** MediaPipe's JavaScript, WASM and model files, and every font and script, are bundled in the repo and served locally. A page load makes zero external requests.
-- **Webcam frames stay in the browser.** Pose detection runs in the browser tab. The engine receives numbers (joint coordinates), never images or video.
-- **No generative content.** There is no image, text or video generation anywhere in the stack, so there is nothing to moderate and no model that can produce something unexpected.
-- **Her work is never filtered.** Drawings, recordings and acting are local and hers.
-- **Her work is never committed.** Everything personal lives in `data/`, which is bind-mounted into the containers and ignored by git.
-
-If you fork this and want to add anything that talks to a network, please keep it behind an explicit opt-in and out of the default Compose file.
+If you fork this and want to add anything that talks to a network, please keep it behind an explicit opt-in and say so loudly in the UI.
 
 ## Backgrounds
 
-Two places hold backgrounds, and the picker in the UI shows both:
+- `web/backgrounds/` holds a small starter pack of CC0 scenes that ships with the repo. Sources are in `web/backgrounds/CREDITS.md`.
+- `data/backgrounds/` is yours. Drop in anything you have drawn, photographed or bought. Subfolders become categories in the picker. This folder is ignored by git, so purchased packs are safe here.
 
-- `web/backgrounds/` holds a small starter pack of CC0 scenes that ships with the repo. Sources are listed in `web/backgrounds/CREDITS.md`.
-- `data/backgrounds/` is yours. Drop in anything you have drawn, photographed or bought. Subfolders become categories in the picker. This folder is ignored by git, so purchased packs with restrictive licences are safe here and will never end up in a public repo by accident.
-
-Accepted formats are PNG, JPEG and WebP. Any size works; at render time an image is scaled to fill the 1280x720 frame and cropped at the centre, so a 16:9 source shows in full and other shapes lose a little at the edges.
+PNG, JPEG and WebP are accepted at any size. At render time an image is scaled to fill the 1280x720 frame and cropped at the centre.
 
 ## Moving it to another machine
 
-All state is in `data/`. The container images are disposable and rebuilt from the repo.
+Everything personal is in `data/`. Clone the repo on the new machine and copy that folder across.
 
 ```bash
-# On the new machine
 git clone https://github.com/<your-user>/toon-studio.git
 cd toon-studio
-cp .env.example .env
 rsync -a old-machine:~/toon-studio/data/ ./data/
-docker compose up --build
+./run.sh
 ```
 
 ## Repo layout
 
 ```
 toon-studio/
-  docker-compose.yml   # the whole stack; internal network, one localhost port
-  torchserve/          # Animated Drawings' model server (figure and pose detection), pinned
-  engine/              # Python worker and HTTP API: rig, retarget, render, lip-sync, assemble
-  web/                 # static browser UI, bundled MediaPipe, CC0 starter backgrounds
-  data/                # your drawings, recordings, motions, renders, backgrounds (gitignored)
+  serve.py         # the helper: static files, strict CSP, data read/write, Rhubarb and ffmpeg
+  run.sh           # starts and stops the helper, opens the browser
+  tools/           # get-rhubarb.sh; the Rhubarb binary lands here, ignored by git
+  web/             # the app: index.html, js/, css/, vendor/, backgrounds/, samples/, templates/
+  tests/           # unittest for the helper; small browser-run tests for the app
+  data/            # yours: characters, recordings, shots, exports, backgrounds (ignored by git)
 ```
 
-The research library at the core (Animated Drawings) targets Python 3.8 and a 2023-era PyTorch, so it lives in its own pinned container and is not installed on the host.
+A character on disk is one folder under `data/characters/<name>/` holding plain files: the original photo, the paper-removed texture, a JSON skeleton, the bone weights, and a `parts/` folder for mouths and alternate views. Nothing proprietary; open them in any other tool.
+
+## History
+
+The first version wrapped Meta's Animated Drawings and its TorchServe model server in Docker. It worked, but it needed two containers, 4.6 GB of images, a 2023-era Python and Torch stack, and the models were used once per character to guess joints the animator then had to correct anyway. The current design keeps the good idea, a single drawing bent by a skeleton via a mesh, and does it in the browser with no containers and no models.
 
 ## Built on
 
-- [Animated Drawings](https://github.com/facebookresearch/AnimatedDrawings) by Meta AI Research (MIT): figure detection, rigging, retargeting and rendering.
-- [MediaPipe Pose](https://github.com/google-ai-edge/mediapipe) (Apache 2.0): in-browser body tracking.
+- [PixiJS](https://pixijs.com/) (MIT): rendering and mesh deformation.
+- [MediaPipe](https://github.com/google-ai-edge/mediapipe) Pose Landmarker (Apache 2.0): in-browser body tracking.
 - [Rhubarb Lip Sync](https://github.com/DanielSWolf/rhubarb-lip-sync) (MIT): speech to mouth shapes.
 - [ffmpeg](https://ffmpeg.org/) (LGPL/GPL): encoding and assembly.
-- [TorchServe](https://github.com/pytorch/serve) (Apache 2.0): serves the detection models.
 - Starter backgrounds from [Kenney](https://kenney.nl/) and [free-images.com](https://free-images.com/), all CC0. Full list in `web/backgrounds/CREDITS.md`.
+- Sample drawing from the [Animated Drawings](https://github.com/facebookresearch/AnimatedDrawings) example set (MIT).
 
 ## Licence
 
 MIT. See `LICENSE`.
-
-The bundled starter backgrounds are CC0 and credited in `web/backgrounds/CREDITS.md`. Third-party libraries keep their own licences, linked above.
