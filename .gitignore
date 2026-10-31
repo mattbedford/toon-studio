@@ -1,0 +1,80 @@
+# Toon Studio .gitignore
+# Rule of thumb: if it is hers, bought, generated, or secret, it does not go in the repo.
+
+# ---- Her work and anything bought (never commit) ----
+data/*
+!data/.gitkeep
+!data/backgrounds/
+data/backgrounds/*
+!data/backgrounds/.gitkeep
+!data/backgrounds/README.md
+
+# ---- Secrets and local config ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# ---- Model weights and TorchServe artefacts (large, re-downloadable) ----
+**/model_store/
+**/*.mar
+**/*.pth
+**/*.pt
+**/*.onnx
+**/*.ckpt
+**/*.safetensors
+**/*.bin
+torchserve/logs/
+
+# ---- Media outputs and recordings (generated, or hers) ----
+*.mp4
+*.webm
+*.mov
+*.gif
+*.wav
+*.mp3
+*.ogg
+*.bvh
+# Allow deliberately committed sample assets only in these folders:
+!web/samples/**
+!engine/tests/fixtures/**
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+pip-wheel-metadata/
+
+# ---- Node / front end (if a build step ever appears) ----
+node_modules/
+dist/
+.cache/
+*.tsbuildinfo
+
+# ---- Docker ----
+docker-compose.override.yml
+*.log
+
+# ---- Editors and OS ----
+.idea/
+.vscode/
+!.vscode/extensions.json
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- Local scratch ----
+tmp/
+scratch/
+*.bak
+*.orig
