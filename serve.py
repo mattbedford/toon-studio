@@ -14,7 +14,8 @@ Routes:
   PUT  /api/characters/<name>/<file>      save one character file (raw body)
   GET  /data/characters/<name>/<file>     read one character file
 
-Names match ^[a-z0-9][a-z0-9-]{0,40}$ and files must be in CHARACTER_FILES.
+Names match ^[a-z0-9][a-z0-9-]{0,40}$ and files must be in CHARACTER_FILES or
+be a piece image, parts/<bone id>.png.
 Every path is resolved and checked to sit inside data/ before it is touched.
 """
 
@@ -60,7 +61,20 @@ CHARACTER_FILES = {
     "texture.png": "image/png",
     "character.json": "application/json",
     "skeleton.json": "application/json",
+    "parts.json": "application/json",
+    "paint.png": "image/png",
 }
+# Plus one PNG per piece, named after its bone: parts/<bone id>.png
+PART_FILE_RE = re.compile(r"^parts/[a-z0-9_]{1,48}\.png$")
+
+
+def character_file_type(filename: str) -> Optional[str]:
+    """ Content type for an allowed character file name, else None. """
+    if filename in CHARACTER_FILES:
+        return CHARACTER_FILES[filename]
+    if PART_FILE_RE.match(filename):
+        return "image/png"
+    return None
 
 MAX_UPLOAD_BYTES = 50 * 1024 * 1024
 
@@ -147,7 +161,7 @@ class ToonHandler(SimpleHTTPRequestHandler):
 
     def do_PUT(self) -> None:
         path = urlsplit(self.path).path
-        match = re.match(r"^/api/characters/([^/]+)/([^/]+)$", path)
+        match = re.match(r"^/api/characters/([^/]+)/((?:parts/)?[^/]+)$", path)
         if match is None:
             self.send_json(HTTPStatus.NOT_FOUND, {"error": "unknown route"})
             return
@@ -192,7 +206,7 @@ class ToonHandler(SimpleHTTPRequestHandler):
         if folder is None:
             self.send_json(HTTPStatus.BAD_REQUEST, {"error": "bad character name"})
             return
-        if filename not in CHARACTER_FILES:
+        if character_file_type(filename) is None:
             self.send_json(HTTPStatus.BAD_REQUEST, {"error": "file not allowed"})
             return
         body = self.read_body()

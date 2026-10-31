@@ -116,6 +116,16 @@ class ServerTestCase(unittest.TestCase):
             response, _ = self.request("PUT", f"/api/characters/ok/{filename}", TINY_PNG)
             self.assertIn(response.status, (400, 404), filename)
 
+    def test_piece_images_are_allowed_under_parts(self):
+        response, data = self.request("PUT", "/api/characters/garlic-1/parts/left_hand.png", TINY_PNG)
+        self.assertEqual(response.status, 200, data)
+        self.assertTrue((self.data_dir / "characters" / "garlic-1" / "parts" / "left_hand.png").is_file())
+        response, _ = self.request("GET", "/data/characters/garlic-1/parts/left_hand.png")
+        self.assertEqual(response.status, 200)
+        for bad in ("parts/Left.png", "parts/x.jpg", "parts/../texture.png", "parts/.png", "bits/left.png"):
+            response, _ = self.request("PUT", f"/api/characters/garlic-1/{bad}", TINY_PNG)
+            self.assertIn(response.status, (400, 404), bad)
+
     def test_rejects_empty_and_oversized_bodies(self):
         response, _ = self.request("PUT", "/api/characters/ok/texture.png", b"")
         self.assertEqual(response.status, 400)

@@ -11,62 +11,106 @@
   <header class="topbar editor-bar">
     <a class="back" href="/">Toon Studio</a>
     <h1 id="title">Skeleton</h1>
+    <nav class="modes" aria-label="Editor view">
+      <button id="mode-joints" class="mode active" type="button">Joints</button>
+      <button id="mode-pieces" class="mode" type="button">Pieces</button>
+    </nav>
     <div class="bar-actions">
       <span id="status" class="status" role="status"></span>
       <a id="animate-link" class="button-link" href="#">Animate</a>
-      <button id="save" class="primary" type="button">Save skeleton</button>
+      <button id="save" class="primary" type="button">Save</button>
     </div>
   </header>
 
   <main class="editor">
     <aside class="tools">
-      <section class="tool-group">
-        <h2>Start from</h2>
-        <div class="row">
-          <select id="template" aria-label="Template"></select>
-          <button id="apply-template" type="button">Use</button>
-        </div>
-        <p class="hint">Replaces the joints with a template you can then drag into place.</p>
-      </section>
+      <div id="tools-joints">
+        <section class="tool-group">
+          <h2>Start from</h2>
+          <div class="row">
+            <select id="template" aria-label="Template"></select>
+            <button id="apply-template" type="button">Use</button>
+          </div>
+          <p class="hint">Replaces the joints with a template you can then drag into place.</p>
+        </section>
 
-      <section class="tool-group">
-        <h2>Joints</h2>
-        <div class="row wrap">
-          <button id="add" type="button">Add joint</button>
-          <button id="delete" type="button">Delete</button>
-          <button id="mirror" type="button">Mirror</button>
-          <button id="undo" type="button">Undo</button>
-          <button id="redo" type="button">Redo</button>
-        </div>
-        <ol id="joint-list" class="joint-list"></ol>
-      </section>
+        <section class="tool-group">
+          <h2>Joints</h2>
+          <div class="row wrap">
+            <button id="add" type="button">Add joint</button>
+            <button id="delete" type="button">Delete</button>
+            <button id="mirror" type="button">Mirror</button>
+            <button id="undo" type="button">Undo</button>
+            <button id="redo" type="button">Redo</button>
+          </div>
+          <ol id="joint-list" class="joint-list"></ol>
+        </section>
 
-      <section class="tool-group" id="inspector" hidden>
-        <h2>This joint</h2>
-        <label class="field">
-          <span>Name</span>
-          <input id="joint-name" type="text" maxlength="40" autocomplete="off" spellcheck="false">
-        </label>
-        <label class="field">
-          <span>Hangs off</span>
-          <select id="joint-parent"></select>
-        </label>
-        <p class="hint" id="joint-note"></p>
-      </section>
+        <section class="tool-group" id="inspector" hidden>
+          <h2>This joint</h2>
+          <label class="field">
+            <span>Name</span>
+            <input id="joint-name" type="text" maxlength="40" autocomplete="off" spellcheck="false">
+          </label>
+          <label class="field">
+            <span>Hangs off</span>
+            <select id="joint-parent"></select>
+          </label>
+          <p class="hint" id="joint-note"></p>
+        </section>
 
-      <section class="tool-group">
-        <h2>Show</h2>
-        <label class="check"><input type="checkbox" id="show-regions" checked> What each bone grabs</label>
-        <label class="check"><input type="checkbox" id="show-names" checked> Joint names</label>
-        <label class="check"><input type="checkbox" id="wiggle"> Wiggle</label>
-      </section>
+        <section class="tool-group">
+          <h2>Show</h2>
+          <label class="check"><input type="checkbox" id="show-regions" checked> What each piece grabs</label>
+          <label class="check"><input type="checkbox" id="show-names" checked> Joint names</label>
+          <label class="check"><input type="checkbox" id="wiggle"> Wiggle</label>
+        </section>
 
-      <section class="tool-group help">
-        <h2>How it works</h2>
-        <p>Drag a joint to move it. Each bone grabs the part of the drawing nearest to it, shown in its colour. If a leg lights up two colours, move the knee.</p>
-        <p>Add joint, then click where the new joint goes. It hangs off the selected joint.</p>
-        <p>Arrow keys nudge the selected joint. Delete removes it. Ctrl+Z undoes.</p>
-      </section>
+        <section class="tool-group help">
+          <h2>How it works</h2>
+          <p>Drag a joint to move it. Each bone becomes a piece of the puppet, shown in its colour. If a leg lights up two colours, move the knee.</p>
+          <p>Add joint, then click where the new joint goes. It hangs off the selected joint.</p>
+          <p>Arrow keys nudge the selected joint. Delete removes it. Ctrl+Z undoes.</p>
+        </section>
+      </div>
+
+      <div id="tools-pieces" hidden>
+        <section class="tool-group">
+          <h2>Pull apart</h2>
+          <input id="spread" type="range" min="0" max="100" value="35" aria-label="Pull the pieces apart">
+          <p class="hint">Slide to see every piece on its own, with the dot it turns around.</p>
+        </section>
+
+        <section class="tool-group">
+          <h2>Fix the cut</h2>
+          <div class="row wrap">
+            <button id="tool-pen" class="tool" type="button">Pen</button>
+            <button id="tool-eraser" class="tool" type="button">Eraser</button>
+            <button id="tool-none" class="tool active" type="button">Look</button>
+          </div>
+          <label class="control compact">
+            <span>Size</span>
+            <input id="brush" type="range" min="4" max="80" value="24">
+          </label>
+          <p class="hint" id="paint-hint">Pen paints into the selected piece. Eraser takes pixels out of every piece. The pieces come back together while you paint.</p>
+          <div class="row wrap">
+            <button id="paint-undo" type="button">Undo</button>
+            <button id="paint-redo" type="button">Redo</button>
+            <button id="paint-clear" type="button">Clear my fixes</button>
+          </div>
+        </section>
+
+        <section class="tool-group">
+          <h2>Pieces</h2>
+          <ol id="piece-list" class="joint-list"></ol>
+        </section>
+
+        <section class="tool-group help">
+          <h2>How it works</h2>
+          <p>Click a piece to select it. Each piece turns around its dot, the joint it hangs from. A small circle of the drawing is copied under every joint so nothing shows a gap when it turns.</p>
+          <p>If part of the body ended up in an arm, select the body, pick the pen and paint it back.</p>
+        </section>
+      </div>
     </aside>
 
     <section class="stage-wrap">

@@ -203,3 +203,13 @@ button:disabled { opacity: 0.5; cursor: default; }
   border: 2px solid var(--line); background: #fff; color: var(--ink); text-decoration: none; font-weight: 600;
 }
 .button-link:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- editor modes and pieces view ---------- */
+.modes { display: flex; gap: 4px; padding: 3px; background: #ecebe6; border-radius: 999px; }
+.modes .mode {
+  padding: 6px 16px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font-weight: 600;
+}
+.modes .mode.active { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(31,29,43,0.15); }
+.tools button.tool.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.control.compact { grid-template-columns: 60px 1fr; }
+#stage.painting { cursor: none; }

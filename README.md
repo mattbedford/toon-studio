@@ -18,7 +18,7 @@ Being rebuilt step by step after a first attempt proved too heavy (see "History"
 
 - [x] 1. Local helper with a strict Content-Security-Policy; drop in a photo; remove the paper to alpha with a slider; save a character
 - [x] 2. Joint editor: templates, drag, add, delete, rename; wiggle preview
-- [ ] 3. Auto-cut along the bones, mesh puppet that bends, two preset motions; first cartoon
+- [x] 3. Auto-cut into pieces along the bones, pen and eraser to fix the cut, puppet that turns at its joints, two preset motions; first cartoon
 - [ ] 4. Webcam performance capture (MediaPipe in the browser), smoothing; she acts, it moves
 - [ ] 5. Lip-sync (Rhubarb) with hand-drawn mouth shapes
 - [ ] 6. Backgrounds, shots, voice track, export to MP4
@@ -30,7 +30,7 @@ Being rebuilt step by step after a first attempt proved too heavy (see "History"
 |---|---|---|
 | Character | Draws a figure on paper, photographs it, drops the photo in | Removes the paper so the drawing has a transparent background |
 | Skeleton | Picks a template or starts empty, drags joints onto the drawing, adds or removes some | Nothing. This is her call. A wiggle preview shows whether a joint is in the right place. |
-| Puppet | Nothing more | Weights every pixel to the nearest bones and builds a mesh that bends at the joints |
+| Pieces | Checks the cut in the Pieces view, pulls the puppet apart to see every part, and paints any pixel that landed in the wrong piece back where it belongs | Cuts the drawing into one piece per bone, each turning about its joint, with a small overlap at every joint so nothing shows a gap |
 | Performance | Acts the movement out in front of the webcam | Tracks body landmarks in the browser and copies each limb's angle onto the puppet, smoothed. Video frames never leave the tab. |
 | Voice | Records the line with a microphone | Rhubarb Lip Sync works out which mouth shape is needed when |
 | Mouths | Draws a few mouth shapes | Swaps them in at the right moments |
@@ -107,7 +107,7 @@ toon-studio/
   data/            # yours: characters, recordings, shots, exports, backgrounds (ignored by git)
 ```
 
-A character on disk is one folder under `data/characters/<name>/` holding plain files: the original photo, the paper-removed texture, a JSON skeleton, the bone weights, and a `parts/` folder for mouths and alternate views. Nothing proprietary; open them in any other tool.
+A character on disk is one folder under `data/characters/<name>/` holding plain files: the original photo, the paper-removed texture, a JSON skeleton, a `parts/` folder with one PNG per piece plus a JSON manifest of pivots, and a small grey PNG recording any pen and eraser fixes. Nothing proprietary; open them in any other tool.
 
 ## History
 
@@ -115,7 +115,7 @@ The first version wrapped Meta's Animated Drawings and its TorchServe model serv
 
 ## Built on
 
-- [PixiJS](https://pixijs.com/) (MIT): rendering and mesh deformation.
+- [PixiJS](https://pixijs.com/) (MIT): rendering.
 - [MediaPipe](https://github.com/google-ai-edge/mediapipe) Pose Landmarker (Apache 2.0): in-browser body tracking.
 - [Rhubarb Lip Sync](https://github.com/DanielSWolf/rhubarb-lip-sync) (MIT): speech to mouth shapes.
 - [ffmpeg](https://ffmpeg.org/) (LGPL/GPL): encoding and assembly.
