@@ -5,7 +5,8 @@ import {
   applyTemplate, addJoint, moveJoint, renameJoint, deleteJoint, setParent, mirrorX,
   bones, depthOrder, jointById, rootOf, descendantsOf, depthOf, validate,
 } from './skeleton.js';
-import { labelPixels, labelCounts } from './regions.js';
+import { labelCounts, measureBoneHalfWidths, labelPixelsByThickness } from './regions.js';
+import { buildGrid, solidCellTester, restBones, computeWeightsFromLabels, poseTransforms, skin } from './rig.js';
 import { characterFileUrl, putCharacterFile } from './api.js';
 
 // One colour per bone, in depth order. Marker colours, distinct from each other.
@@ -17,6 +18,7 @@ const BONE_COLOURS = [
 const REGION_MAX_SIDE = 512;     // working resolution for the label map
 const HIT_RADIUS = 14;           // screen pixels
 const WIGGLE_DEGREES = 12;
+const PREVIEW_CELLS_ON_LONG_SIDE = 28;   // mesh density for the wiggle preview
 const WIGGLE_PERIOD_MS = 1800;
 
 function boneColour(joint) {
@@ -79,6 +81,7 @@ async function boot() {
   state.name = name;
   el.title.textContent = name;
   document.title = `${name}: skeleton`;
+  document.getElementById('animate-link').href = `play.html?name=${encodeURIComponent(name)}`;
 
   try {
     const [texture, templates, existing] = await Promise.all([
@@ -514,7 +517,8 @@ function refreshRegions() {
   const segments = boneList.map((b) => ({
     x1: b.from.x * scale, y1: b.from.y * scale, x2: b.to.x * scale, y2: b.to.y * scale,
   }));
-  const labels = labelPixels(state.regions.alpha, width, height, segments);
+  const halfWidths = measureBoneHalfWidths(state.regions.alpha, width, height, segments);
+  const labels = labelPixelsByThickness(state.regions.alpha, width, height, segments, halfWidths);
   const counts = labelCounts(labels, segments.length);
 
   // Tinted overlay for "what each bone grabs".
@@ -527,21 +531,27 @@ function refreshRegions() {
     overlay.data[p * 4] = c[0]; overlay.data[p * 4 + 1] = c[1]; overlay.data[p * 4 + 2] = c[2]; overlay.data[p * 4 + 3] = 110;
   }
 
-  // One cut-out piece per bone for the wiggle preview, at working resolution.
-  const pieces = boneList.map((bone, i) => {
-    const piece = new ImageData(width, height);
-    const src = state.regions.small.data;
-    for (let p = 0; p < labels.length; p += 1) {
-      if (labels[p] !== i) continue;
-      piece.data.set(src.subarray(p * 4, p * 4 + 4), p * 4);
-    }
-    const canvas = new OffscreenCanvas(width, height);
-    canvas.getContext('2d').putImageData(piece, 0, 0);
-    return { bone, canvas };
-  });
+  // The wiggle preview uses the same bending mesh as the player, built over
+  // the working-resolution texture so it stays quick while joints are dragged.
+  const cellSize = Math.max(4, Math.round(Math.max(width, height) / PREVIEW_CELLS_ON_LONG_SIDE));
+  const grid = buildGrid(width, height, cellSize, solidCellTester(state.regions.alpha, width, height, 1, cellSize));
+  const rig = restBones(scaledSkeleton(scale));
+  const weighting = computeWeightsFromLabels(grid.positions, rig, labels, width, height, 1, cellSize);
+  const preview = { grid, rig, weighting, posed: new Float32Array(grid.positions), skeleton: scaledSkeleton(scale) };
 
-  Object.assign(state.regions, { labels, counts, overlay: overlayToCanvas(overlay), pieces, boneList });
+  if (!state.regions.image) {
+    const image = new OffscreenCanvas(width, height);
+    image.getContext('2d').putImageData(state.regions.small, 0, 0);
+    state.regions.image = image;
+  }
+
+  Object.assign(state.regions, { labels, counts, overlay: overlayToCanvas(overlay), boneList, preview });
   state.regionsStale = false;
+}
+
+// The skeleton in working-resolution pixels.
+function scaledSkeleton(scale) {
+  return { ...state.skeleton, joints: state.skeleton.joints.map((j) => ({ ...j, x: j.x * scale, y: j.y * scale })) };
 }
 
 function overlayToCanvas(imageData) {
@@ -656,32 +666,56 @@ function roundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
 }
 
-// Each bone's cut-out swings about its parent joint. Angles accumulate down
-// the chain, so a swinging thigh carries the shin and foot with it.
+// Every bone swings gently about its parent, and the mesh bends with it,
+// exactly as the player will render it.
 function drawWiggle(ctx, elapsed) {
-  const { pieces, scale: regionScale } = state.regions;
+  const { preview, image, scale: regionScale } = state.regions;
   const phase = (elapsed / WIGGLE_PERIOD_MS) * Math.PI * 2;
-  const order = depthOrder(state.skeleton);
-  const transforms = new Map();   // joint id -> DOMMatrix in texture space
-  const root = rootOf(state.skeleton);
-  transforms.set(root.id, new DOMMatrix());
-
-  for (const joint of order) {
+  const rotations = {};
+  for (const joint of state.skeleton.joints) {
     if (joint.parent === null) continue;
-    const parentMatrix = transforms.get(joint.parent);
-    const parent = jointById(state.skeleton, joint.parent);
     const depth = depthOf(state.skeleton, joint.id);
-    const angle = (WIGGLE_DEGREES * Math.PI / 180) * Math.sin(phase + depth * 0.9 + hashAngle(joint.id));
-    const local = new DOMMatrix().translate(parent.x, parent.y).rotate(angle * 180 / Math.PI).translate(-parent.x, -parent.y);
-    transforms.set(joint.id, parentMatrix.multiply(local));
+    rotations[joint.id] = (WIGGLE_DEGREES * Math.PI / 180) * Math.sin(phase + depth * 0.9 + hashAngle(joint.id));
   }
+  const transforms = poseTransforms(preview.skeleton, preview.rig, { rotations, root: { x: 0, y: 0, rotation: 0 } });
+  skin(preview.grid.positions, transforms.bones, preview.weighting, preview.posed);
 
-  const inv = 1 / regionScale;
-  for (const { bone, canvas } of pieces) {
-    const m = transforms.get(bone.id);
+  ctx.save();
+  ctx.scale(1 / regionScale, 1 / regionScale);
+  drawTexturedTriangles(ctx, image, preview.grid.positions, preview.posed, preview.grid.indices);
+  ctx.restore();
+}
+
+// Canvas 2D has no mesh primitive, so each triangle is drawn by clipping to
+// its posed shape and drawing the image through the affine map that takes
+// the rest triangle onto it. Triangles are grown by a hair to hide seams.
+function drawTexturedTriangles(ctx, image, rest, posed, indices) {
+  for (let i = 0; i < indices.length; i += 3) {
+    const a = indices[i] * 2, b = indices[i + 1] * 2, c = indices[i + 2] * 2;
+    const x0 = rest[a], y0 = rest[a + 1], x1 = rest[b], y1 = rest[b + 1], x2 = rest[c], y2 = rest[c + 1];
+    const u0 = posed[a], v0 = posed[a + 1], u1 = posed[b], v1 = posed[b + 1], u2 = posed[c], v2 = posed[c + 1];
+
+    // Affine map M with M(rest_k) = posed_k, solved from the three correspondences.
+    const det = (x1 - x0) * (y2 - y0) - (x2 - x0) * (y1 - y0);
+    if (Math.abs(det) < 1e-6) continue;
+    const ma = ((u1 - u0) * (y2 - y0) - (u2 - u0) * (y1 - y0)) / det;
+    const mc = ((u2 - u0) * (x1 - x0) - (u1 - u0) * (x2 - x0)) / det;
+    const mb = ((v1 - v0) * (y2 - y0) - (v2 - v0) * (y1 - y0)) / det;
+    const md = ((v2 - v0) * (x1 - x0) - (v1 - v0) * (x2 - x0)) / det;
+    const me = u0 - ma * x0 - mc * y0;
+    const mf = v0 - mb * x0 - md * y0;
+
+    // Grow the clip slightly away from the centroid to cover seams.
+    const cx = (u0 + u1 + u2) / 3, cy = (v0 + v1 + v2) / 3;
+    const grow = (px, py) => { const dx = px - cx, dy = py - cy, l = Math.hypot(dx, dy) || 1; return [px + dx / l * 0.6, py + dy / l * 0.6]; };
+    const [g0x, g0y] = grow(u0, v0), [g1x, g1y] = grow(u1, v1), [g2x, g2y] = grow(u2, v2);
+
     ctx.save();
-    ctx.transform(m.a, m.b, m.c, m.d, m.e, m.f);
-    ctx.drawImage(canvas, 0, 0, canvas.width * inv, canvas.height * inv);
+    ctx.beginPath();
+    ctx.moveTo(g0x, g0y); ctx.lineTo(g1x, g1y); ctx.lineTo(g2x, g2y); ctx.closePath();
+    ctx.clip();
+    ctx.transform(ma, mb, mc, md, me, mf);
+    ctx.drawImage(image, 0, 0);
     ctx.restore();
   }
 }

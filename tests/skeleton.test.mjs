@@ -115,3 +115,22 @@ test('labelPixels gives each opaque pixel to the nearest bone', () => {
   assert.deepEqual(Array.from(labels), [0, 0, -1, 1]);
   assert.deepEqual(Array.from(labelCounts(labels, 2)), [2, 1]);
 });
+
+test('measureBoneHalfWidths reads thickness off the drawing and labelling respects it', async () => {
+  const { measureBoneHalfWidths, labelPixelsByThickness } = await import('../web/js/regions.js');
+  // 40x40 mask: a thick vertical bar (x 10..29) and a thin vertical line at x=34.
+  const width = 40, height = 40;
+  const alpha = new Uint8Array(width * height);
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 10; x < 30; x += 1) alpha[y * width + x] = 255;
+    alpha[y * width + 34] = 255;
+  }
+  const segments = [{ x1: 20, y1: 0, x2: 20, y2: 39 }, { x1: 34, y1: 0, x2: 34, y2: 39 }];
+  const half = measureBoneHalfWidths(alpha, width, height, segments);
+  assert.ok(half[0] >= 8 && half[0] <= 10, `bar half-width ${half[0]}`);
+  assert.equal(half[1], 0);
+  const labels = labelPixelsByThickness(alpha, width, height, segments, half);
+  // A bar pixel at x=28 is 8 from the bar's bone and 6 from the line's, yet belongs to the bar.
+  assert.equal(labels[20 * width + 28], 0);
+  assert.equal(labels[20 * width + 34], 1);
+});

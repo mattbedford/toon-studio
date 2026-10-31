@@ -209,11 +209,21 @@ function renderCharacter(character) {
   const rigged = character.files.includes('skeleton.json');
   meta.textContent = rigged ? 'has a skeleton' : 'no skeleton yet';
   text.append(name, meta);
-  const link = document.createElement('a');
-  link.className = 'rig';
-  link.href = `editor.html?name=${encodeURIComponent(character.name)}`;
-  link.textContent = rigged ? 'Edit skeleton' : 'Give it a skeleton';
-  li.append(img, text, link);
+  const links = document.createElement('div');
+  links.className = 'links';
+  const rig = document.createElement('a');
+  rig.className = 'rig';
+  rig.href = `editor.html?name=${encodeURIComponent(character.name)}`;
+  rig.textContent = rigged ? 'Edit skeleton' : 'Give it a skeleton';
+  links.append(rig);
+  if (rigged) {
+    const play = document.createElement('a');
+    play.className = 'rig';
+    play.href = `play.html?name=${encodeURIComponent(character.name)}`;
+    play.textContent = 'Animate';
+    links.append(play);
+  }
+  li.append(img, text, links);
   return li;
 }
 
