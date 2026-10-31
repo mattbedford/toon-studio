@@ -1,0 +1,22 @@
+{
+  "id": "humanoid",
+  "name": "Person: head, arms, legs",
+  "note": "Positions are fractions of the texture box. Sides are named as the viewer sees them. landmark values use MediaPipe names assuming the character faces the viewer, so the viewer's left is the character's right.",
+  "joints": [
+    { "id": "hip",            "name": "Hips",           "x": 0.50, "y": 0.58, "parent": null,             "landmark": "mid_hip" },
+    { "id": "chest",          "name": "Chest",          "x": 0.50, "y": 0.38, "parent": "hip",            "landmark": "mid_shoulder" },
+    { "id": "head",           "name": "Head",           "x": 0.50, "y": 0.12, "parent": "chest",          "landmark": "nose" },
+    { "id": "left_shoulder",  "name": "Left shoulder",  "x": 0.38, "y": 0.38, "parent": "chest",          "landmark": "right_shoulder" },
+    { "id": "left_elbow",     "name": "Left elbow",     "x": 0.28, "y": 0.50, "parent": "left_shoulder",  "landmark": "right_elbow" },
+    { "id": "left_hand",      "name": "Left hand",      "x": 0.20, "y": 0.62, "parent": "left_elbow",     "landmark": "right_wrist" },
+    { "id": "right_shoulder", "name": "Right shoulder", "x": 0.62, "y": 0.38, "parent": "chest",          "landmark": "left_shoulder" },
+    { "id": "right_elbow",    "name": "Right elbow",    "x": 0.72, "y": 0.50, "parent": "right_shoulder", "landmark": "left_elbow" },
+    { "id": "right_hand",     "name": "Right hand",     "x": 0.80, "y": 0.62, "parent": "right_elbow",    "landmark": "left_wrist" },
+    { "id": "left_hip",       "name": "Left hip",       "x": 0.44, "y": 0.60, "parent": "hip",            "landmark": "right_hip" },
+    { "id": "left_knee",      "name": "Left knee",      "x": 0.42, "y": 0.78, "parent": "left_hip",       "landmark": "right_knee" },
+    { "id": "left_foot",      "name": "Left foot",      "x": 0.41, "y": 0.96, "parent": "left_knee",      "landmark": "right_ankle" },
+    { "id": "right_hip",      "name": "Right hip",      "x": 0.56, "y": 0.60, "parent": "hip",            "landmark": "left_hip" },
+    { "id": "right_knee",     "name": "Right knee",     "x": 0.58, "y": 0.78, "parent": "right_hip",      "landmark": "left_knee" },
+    { "id": "right_foot",     "name": "Right foot",     "x": 0.59, "y": 0.96, "parent": "right_knee",     "landmark": "left_ankle" }
+  ]
+}

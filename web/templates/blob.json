@@ -1,0 +1,13 @@
+{
+  "id": "blob",
+  "name": "Blob with arms, no legs",
+  "joints": [
+    { "id": "body",       "name": "Body",       "x": 0.50, "y": 0.62, "parent": null,        "landmark": "mid_hip" },
+    { "id": "chest",      "name": "Chest",      "x": 0.50, "y": 0.42, "parent": "body",      "landmark": "mid_shoulder" },
+    { "id": "head",       "name": "Head",       "x": 0.50, "y": 0.15, "parent": "chest",     "landmark": "nose" },
+    { "id": "left_arm",   "name": "Left arm",   "x": 0.30, "y": 0.45, "parent": "chest",     "landmark": "right_elbow" },
+    { "id": "left_hand",  "name": "Left hand",  "x": 0.12, "y": 0.52, "parent": "left_arm",  "landmark": "right_wrist" },
+    { "id": "right_arm",  "name": "Right arm",  "x": 0.70, "y": 0.45, "parent": "chest",     "landmark": "left_elbow" },
+    { "id": "right_hand", "name": "Right hand", "x": 0.88, "y": 0.52, "parent": "right_arm", "landmark": "left_wrist" }
+  ]
+}

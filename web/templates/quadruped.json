@@ -1,0 +1,20 @@
+{
+  "id": "quadruped",
+  "name": "Four legs and a tail",
+  "note": "Built for an animal facing left. Use Mirror if yours faces right.",
+  "joints": [
+    { "id": "hip",        "name": "Hips",        "x": 0.72, "y": 0.45, "parent": null,        "landmark": null },
+    { "id": "chest",      "name": "Chest",       "x": 0.30, "y": 0.45, "parent": "hip",       "landmark": null },
+    { "id": "neck",       "name": "Neck",        "x": 0.18, "y": 0.30, "parent": "chest",     "landmark": null },
+    { "id": "head",       "name": "Head",        "x": 0.08, "y": 0.22, "parent": "neck",      "landmark": null },
+    { "id": "tail",       "name": "Tail",        "x": 0.90, "y": 0.30, "parent": "hip",       "landmark": null },
+    { "id": "front_knee", "name": "Front knee",  "x": 0.30, "y": 0.68, "parent": "chest",     "landmark": null },
+    { "id": "front_foot", "name": "Front foot",  "x": 0.30, "y": 0.92, "parent": "front_knee", "landmark": null },
+    { "id": "front_knee_far", "name": "Far front knee", "x": 0.38, "y": 0.68, "parent": "chest", "landmark": null },
+    { "id": "front_foot_far", "name": "Far front foot", "x": 0.38, "y": 0.92, "parent": "front_knee_far", "landmark": null },
+    { "id": "back_knee",  "name": "Back knee",   "x": 0.72, "y": 0.68, "parent": "hip",       "landmark": null },
+    { "id": "back_foot",  "name": "Back foot",   "x": 0.72, "y": 0.92, "parent": "back_knee", "landmark": null },
+    { "id": "back_knee_far", "name": "Far back knee", "x": 0.64, "y": 0.68, "parent": "hip",  "landmark": null },
+    { "id": "back_foot_far", "name": "Far back foot", "x": 0.64, "y": 0.92, "parent": "back_knee_far", "landmark": null }
+  ]
+}

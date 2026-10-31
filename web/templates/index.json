@@ -1,0 +1,8 @@
+{
+  "templates": [
+    { "id": "humanoid", "name": "Person: head, arms, legs", "file": "humanoid.json" },
+    { "id": "blob", "name": "Blob with arms, no legs", "file": "blob.json" },
+    { "id": "quadruped", "name": "Four legs and a tail", "file": "quadruped.json" },
+    { "id": "empty", "name": "Just a body, I will add the rest", "file": "empty.json" }
+  ]
+}

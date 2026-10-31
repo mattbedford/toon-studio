@@ -16,8 +16,8 @@ The drawings, where the joints go, the voice, the timing, the staging, the story
 
 Being rebuilt step by step after a first attempt proved too heavy (see "History" below). Each step is ticked when it produces something you can click.
 
-- [ ] 1. Local helper with a strict Content-Security-Policy; drop in a photo; remove the paper to alpha with a slider; save a character
-- [ ] 2. Joint editor: templates, drag, add, delete, rename; wiggle preview
+- [x] 1. Local helper with a strict Content-Security-Policy; drop in a photo; remove the paper to alpha with a slider; save a character
+- [x] 2. Joint editor: templates, drag, add, delete, rename; wiggle preview
 - [ ] 3. Auto-cut along the bones, mesh puppet that bends, two preset motions; first cartoon
 - [ ] 4. Webcam performance capture (MediaPipe in the browser), smoothing; she acts, it moves
 - [ ] 5. Lip-sync (Rhubarb) with hand-drawn mouth shapes
@@ -55,6 +55,15 @@ cd toon-studio
 ```
 
 The script starts the helper on `http://127.0.0.1:8765` and opens it in your browser. Stop it with `./run.sh stop`. Set `TOON_PORT` to use a different port.
+
+## Running the tests
+
+```bash
+python3 -m unittest discover -s tests      # the helper: routes, headers, path checks, no outbound code
+node --test tests/*.test.mjs               # the pure browser modules: skeleton model, bone regions
+```
+
+Node is only needed for the second line, and only to run tests. The app itself needs no Node.
 
 ## Privacy and safety, by construction
 

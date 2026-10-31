@@ -206,9 +206,14 @@ function renderCharacter(character) {
   name.textContent = character.name;
   const meta = document.createElement('div');
   meta.className = 'meta';
-  meta.textContent = character.files.includes('skeleton.json') ? 'rigged' : 'no skeleton yet';
+  const rigged = character.files.includes('skeleton.json');
+  meta.textContent = rigged ? 'has a skeleton' : 'no skeleton yet';
   text.append(name, meta);
-  li.append(img, text);
+  const link = document.createElement('a');
+  link.className = 'rig';
+  link.href = `editor.html?name=${encodeURIComponent(character.name)}`;
+  link.textContent = rigged ? 'Edit skeleton' : 'Give it a skeleton';
+  li.append(img, text, link);
   return li;
 }
 

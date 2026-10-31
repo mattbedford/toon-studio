@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skeleton editor</title>
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="icon" href="data:,">
+</head>
+<body class="editor-page">
+  <header class="topbar editor-bar">
+    <a class="back" href="/">Toon Studio</a>
+    <h1 id="title">Skeleton</h1>
+    <div class="bar-actions">
+      <span id="status" class="status" role="status"></span>
+      <button id="save" class="primary" type="button">Save skeleton</button>
+    </div>
+  </header>
+
+  <main class="editor">
+    <aside class="tools">
+      <section class="tool-group">
+        <h2>Start from</h2>
+        <div class="row">
+          <select id="template" aria-label="Template"></select>
+          <button id="apply-template" type="button">Use</button>
+        </div>
+        <p class="hint">Replaces the joints with a template you can then drag into place.</p>
+      </section>
+
+      <section class="tool-group">
+        <h2>Joints</h2>
+        <div class="row wrap">
+          <button id="add" type="button">Add joint</button>
+          <button id="delete" type="button">Delete</button>
+          <button id="mirror" type="button">Mirror</button>
+          <button id="undo" type="button">Undo</button>
+          <button id="redo" type="button">Redo</button>
+        </div>
+        <ol id="joint-list" class="joint-list"></ol>
+      </section>
+
+      <section class="tool-group" id="inspector" hidden>
+        <h2>This joint</h2>
+        <label class="field">
+          <span>Name</span>
+          <input id="joint-name" type="text" maxlength="40" autocomplete="off" spellcheck="false">
+        </label>
+        <label class="field">
+          <span>Hangs off</span>
+          <select id="joint-parent"></select>
+        </label>
+        <p class="hint" id="joint-note"></p>
+      </section>
+
+      <section class="tool-group">
+        <h2>Show</h2>
+        <label class="check"><input type="checkbox" id="show-regions" checked> What each bone grabs</label>
+        <label class="check"><input type="checkbox" id="show-names" checked> Joint names</label>
+        <label class="check"><input type="checkbox" id="wiggle"> Wiggle</label>
+      </section>
+
+      <section class="tool-group help">
+        <h2>How it works</h2>
+        <p>Drag a joint to move it. Each bone grabs the part of the drawing nearest to it, shown in its colour. If a leg lights up two colours, move the knee.</p>
+        <p>Add joint, then click where the new joint goes. It hangs off the selected joint.</p>
+        <p>Arrow keys nudge the selected joint. Delete removes it. Ctrl+Z undoes.</p>
+      </section>
+    </aside>
+
+    <section class="stage-wrap">
+      <canvas id="stage" tabindex="0" aria-label="Drawing with joints. Drag joints to move them."></canvas>
+      <p id="stage-hint" class="stage-hint" hidden></p>
+    </section>
+  </main>
+
+  <script type="module" src="js/editor.js"></script>
+</body>
+</html>
