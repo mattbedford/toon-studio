@@ -1,0 +1,33 @@
+# Toon Studio
+#
+# Every service sits on one network marked internal: true, which has no route
+# to the outside world. The only port ever published is the web UI, bound to
+# 127.0.0.1. Keep it that way.
+
+name: toon-studio
+
+services:
+
+  # Animated Drawings' model server. Finds the figure in a drawing and its
+  # joints. Reached only by the engine, over the internal network, on port 8080.
+  torchserve:
+    build:
+      context: ./torchserve
+      args:
+        MMCV_BUILD_JOBS: ${MMCV_BUILD_JOBS:-4}
+    image: toon-studio/torchserve:local
+    networks:
+      - studio
+    # No ports: section on purpose. Nothing on the host can reach this directly.
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://127.0.0.1:8080/ping"]
+      interval: 30s
+      timeout: 5s
+      start_period: 90s
+      retries: 5
+    restart: unless-stopped
+
+networks:
+  studio:
+    driver: bridge
+    internal: true

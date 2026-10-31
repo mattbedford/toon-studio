@@ -76,7 +76,7 @@ Two places hold backgrounds, and the picker in the UI shows both:
 - `web/backgrounds/` holds a small starter pack of CC0 scenes that ships with the repo. Sources are listed in `web/backgrounds/CREDITS.md`.
 - `data/backgrounds/` is yours. Drop in anything you have drawn, photographed or bought. Subfolders become categories in the picker. This folder is ignored by git, so purchased packs with restrictive licences are safe here and will never end up in a public repo by accident.
 
-Accepted formats are PNG and WebP. Any size works; images are scaled and letterboxed to the render frame (1280x720) at render time. A 16:9 source avoids letterbox bars.
+Accepted formats are PNG, JPEG and WebP. Any size works; at render time an image is scaled to fill the 1280x720 frame and cropped at the centre, so a 16:9 source shows in full and other shapes lose a little at the edges.
 
 ## Moving it to another machine
 
@@ -111,7 +111,7 @@ The research library at the core (Animated Drawings) targets Python 3.8 and a 20
 - [Rhubarb Lip Sync](https://github.com/DanielSWolf/rhubarb-lip-sync) (MIT): speech to mouth shapes.
 - [ffmpeg](https://ffmpeg.org/) (LGPL/GPL): encoding and assembly.
 - [TorchServe](https://github.com/pytorch/serve) (Apache 2.0): serves the detection models.
-- Starter backgrounds from [Kenney](https://kenney.nl/) and [OpenGameArt](https://opengameart.org/) contributors, CC0.
+- Starter backgrounds from [Kenney](https://kenney.nl/) and [free-images.com](https://free-images.com/), all CC0. Full list in `web/backgrounds/CREDITS.md`.
 
 ## Licence
 
