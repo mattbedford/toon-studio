@@ -737,6 +737,9 @@ function drawPieces(ctx) {
     ctx.drawImage(piece.canvas, piece.x + off.x, piece.y + off.y);
     ctx.restore();
   });
+  // While painting, the pieces sit together and their colours show, so every
+  // stroke is visible as it happens.
+  if (state.tool !== 'none') ctx.drawImage(w.overlay, 0, 0);
   ctx.restore();
 
   // Pivots and names, in screen space.
