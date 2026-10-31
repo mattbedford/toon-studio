@@ -27,6 +27,26 @@ services:
       retries: 5
     restart: unless-stopped
 
+  # The worker that turns a drawing into a rigged character and renders shots.
+  # Talks to torchserve by service name. Mounts data/ for everything personal.
+  engine:
+    build:
+      context: ./engine
+    image: toon-studio/engine:local
+    networks:
+      - studio
+    volumes:
+      - ${DATA_DIR:-./data}:/data
+      - ./web/samples:/samples:ro
+    environment:
+      TORCHSERVE_URL: http://torchserve:8080
+      DATA_DIR: /data
+    depends_on:
+      torchserve:
+        condition: service_healthy
+    # Step 2: no long-running process yet. Used via docker compose run.
+    profiles: ["tools"]
+
 networks:
   studio:
     driver: bridge
