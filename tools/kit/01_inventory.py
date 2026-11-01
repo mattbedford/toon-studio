@@ -15,7 +15,7 @@ from PIL import Image
 sys.path.insert(0, str(Path(__file__).resolve().parent))  # -I drops it
 
 from common import (classify_background, corner_colours, file_hashes, kit_dir, list_sources,
-                    panel_boxes, sample_background, slugify, web_char_dir, write_json)
+                    panel_boxes, sample_background, slugify, out_char_dir, write_json)
 
 
 def unique_slug(name: str, taken: set) -> str:
@@ -72,7 +72,7 @@ def main(char: str) -> None:
     out = kit_dir(char) / "inventory.json"
     write_json(out, {"character": char, "files": entries})
 
-    source_dir = web_char_dir(char) / "SOURCE"
+    source_dir = out_char_dir(char) / "SOURCE"
     source_dir.mkdir(parents=True, exist_ok=True)
     for path in sources:
         shutil.copy2(path, source_dir / path.name)

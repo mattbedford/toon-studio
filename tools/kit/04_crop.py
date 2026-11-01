@@ -16,7 +16,7 @@ from PIL import Image, ImageDraw
 sys.path.insert(0, str(Path(__file__).resolve().parent))  # -I drops it
 
 from common import (CLASSIFICATION, kit_dir, load_font, load_rgba, opaque_bbox, read_json, save_rgba,
-                    web_char_dir, write_json)
+                    out_char_dir, write_json)
 
 MARGIN = 16
 FIELDS = ["name", "facing", "face", "talk_capable", "eyes_open", "mouth_closed", "notes"]
@@ -111,7 +111,7 @@ def main(char: str) -> None:
         poses.append(entry)
     write_json(kit / "poses.json", {"character": char, "poses": poses})
 
-    web = web_char_dir(char)
+    web = out_char_dir(char)
     contact_sheet(crops, cell_height=420, columns=6, font_size=15).save(web / "contact-sheet.png")
     contact_sheet(crops, cell_height=900, columns=5, font_size=30).save(
         kit / "contact-sheet-numbered-large.png")

@@ -24,3 +24,5 @@ python3 -I "$HERE/07_faces_assemble.py" "$CHAR"
 
 python3 -I "$HERE/08_character_json.py" "$CHAR"
 python3 -I "$HERE/09_report.py" "$CHAR"
+# The shipped fixture is only the boy, at half size; the full kits stay in data/characters/.
+[ "$CHAR" = boy ] && python3 -I "$HERE/10_fixture.py" boy 0.5

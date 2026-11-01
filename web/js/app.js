@@ -1,188 +1,18 @@
-import { estimatePaperMap, removePaper, crop } from './paper.js';
-import { listCharacters, putCharacterFile, characterFileUrl } from './api.js';
+// The front page: the cast (shipped characters and hers) and the Krita importer.
 
-// Working copies are capped at this many pixels on the long side. Plenty for a
-// puppet texture, and keeps paper removal instant while the slider moves.
-const MAX_WORKING_SIZE = 2000;
-const NAME_PATTERN = /^[a-z0-9][a-z0-9-]{0,40}$/;
+import { listCharacters, importOra, putCharacterFile, characterFileUrl } from './api.js';
+import { NAME_PATTERN } from './config.js';
 
 const el = {
-  drop: document.getElementById('drop'),
-  file: document.getElementById('file'),
-  workbench: document.getElementById('workbench'),
-  original: document.getElementById('original'),
-  result: document.getElementById('result'),
-  threshold: document.getElementById('threshold'),
-  thresholdValue: document.getElementById('threshold-value'),
-  name: document.getElementById('name'),
-  save: document.getElementById('save'),
-  cancel: document.getElementById('cancel'),
-  status: document.getElementById('status'),
   list: document.getElementById('character-list'),
   empty: document.getElementById('character-empty'),
+  drop: document.getElementById('drop'),
+  file: document.getElementById('file'),
+  name: document.getElementById('name'),
+  status: document.getElementById('status'),
 };
 
-const state = {
-  sourceFile: null,     // the File the user dropped
-  working: null,        // ImageData, downscaled working copy
-  paper: null,          // local paper colour map, see paper.js
-  removed: null,        // { imageData, bounds } for the current threshold
-  pending: false,       // a removal is scheduled for the next frame
-};
-
-// ---------- loading a photo ----------
-
-el.drop.addEventListener('click', () => el.file.click());
-el.drop.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); el.file.click(); }
-});
-el.file.addEventListener('change', () => { if (el.file.files[0]) loadPhoto(el.file.files[0]); });
-
-for (const type of ['dragenter', 'dragover']) {
-  el.drop.addEventListener(type, (event) => { event.preventDefault(); el.drop.classList.add('over'); });
-}
-for (const type of ['dragleave', 'drop']) {
-  el.drop.addEventListener(type, (event) => { event.preventDefault(); el.drop.classList.remove('over'); });
-}
-el.drop.addEventListener('drop', (event) => {
-  const file = [...event.dataTransfer.files].find((f) => f.type.startsWith('image/'));
-  if (file) loadPhoto(file);
-});
-
-async function loadPhoto(file) {
-  setStatus('');
-  let bitmap;
-  try {
-    bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
-  } catch (error) {
-    setStatus(`That file could not be read as an image. ${error.message}`, 'error');
-    return;
-  }
-  const scale = Math.min(1, MAX_WORKING_SIZE / Math.max(bitmap.width, bitmap.height));
-  const width = Math.round(bitmap.width * scale);
-  const height = Math.round(bitmap.height * scale);
-
-  el.original.width = width;
-  el.original.height = height;
-  const ctx = el.original.getContext('2d', { willReadFrequently: true });
-  ctx.drawImage(bitmap, 0, 0, width, height);
-  bitmap.close();
-
-  state.sourceFile = file;
-  state.working = ctx.getImageData(0, 0, width, height);
-  state.paper = estimatePaperMap(state.working);
-
-  el.result.width = width;
-  el.result.height = height;
-  el.workbench.hidden = false;
-  el.drop.hidden = true;
-  if (!el.name.value) el.name.value = suggestName(file.name);
-  scheduleRemoval();
-}
-
-function suggestName(filename) {
-  return filename.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 41);
-}
-
-// ---------- paper removal ----------
-
-el.threshold.addEventListener('input', () => {
-  el.thresholdValue.value = el.threshold.value;
-  scheduleRemoval();
-});
-
-function scheduleRemoval() {
-  if (state.pending) return;
-  state.pending = true;
-  requestAnimationFrame(() => {
-    state.pending = false;
-    runRemoval();
-  });
-}
-
-function runRemoval() {
-  if (!state.working) return;
-  const threshold = Number(el.threshold.value);
-  state.removed = removePaper(state.working, state.paper, threshold);
-  el.result.getContext('2d').putImageData(state.removed.imageData, 0, 0);
-  el.save.disabled = state.removed.bounds === null;
-}
-
-// ---------- saving ----------
-
-el.save.addEventListener('click', saveCharacter);
-el.cancel.addEventListener('click', reset);
-el.name.addEventListener('input', () => setStatus(''));
-
-async function saveCharacter() {
-  const name = el.name.value.trim();
-  if (!NAME_PATTERN.test(name)) {
-    setStatus('Pick a name using lowercase letters, numbers and dashes, starting with a letter or number.', 'error');
-    el.name.focus();
-    return;
-  }
-  if (!state.removed || !state.removed.bounds) {
-    setStatus('Nothing to save: the whole photo was treated as paper. Slide the threshold left.', 'error');
-    return;
-  }
-
-  el.save.disabled = true;
-  setStatus('Saving...');
-  try {
-    const texture = crop(state.removed.imageData, state.removed.bounds, 8);
-    const texturePng = await imageDataToPng(texture);
-    const drawingPng = await canvasToPng(el.original);
-    const meta = {
-      name,
-      created: new Date().toISOString(),
-      source: { filename: state.sourceFile.name, type: state.sourceFile.type },
-      working: { width: state.working.width, height: state.working.height },
-      paper: { threshold: Number(el.threshold.value) },
-      texture: { width: texture.width, height: texture.height, bounds: state.removed.bounds },
-    };
-    await putCharacterFile(name, 'drawing.png', drawingPng, 'image/png');
-    await putCharacterFile(name, 'texture.png', texturePng, 'image/png');
-    await putCharacterFile(name, 'character.json', JSON.stringify(meta, null, 2), 'application/json');
-    setStatus(`Saved "${name}". Next up: giving it a skeleton.`, 'ok');
-    await refreshList();
-  } catch (error) {
-    setStatus(`Could not save: ${error.message}`, 'error');
-  } finally {
-    el.save.disabled = false;
-  }
-}
-
-function imageDataToPng(imageData) {
-  const canvas = document.createElement('canvas');
-  canvas.width = imageData.width;
-  canvas.height = imageData.height;
-  canvas.getContext('2d').putImageData(imageData, 0, 0);
-  return canvasToPng(canvas);
-}
-
-function canvasToPng(canvas) {
-  return new Promise((resolve, reject) => {
-    canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error('PNG encoding failed'))), 'image/png');
-  });
-}
-
-function reset() {
-  state.sourceFile = null;
-  state.working = null;
-  state.removed = null;
-  el.file.value = '';
-  el.name.value = '';
-  el.workbench.hidden = true;
-  el.drop.hidden = false;
-  setStatus('');
-}
-
-function setStatus(text, kind = '') {
-  el.status.textContent = text;
-  el.status.className = `status ${kind}`.trim();
-}
-
-// ---------- character list ----------
+// ---------- the cast ----------
 
 async function refreshList() {
   let characters = [];
@@ -199,32 +29,126 @@ function renderCharacter(character) {
   const li = document.createElement('li');
   const img = document.createElement('img');
   img.alt = '';
-  img.src = character.files.includes('texture.png') ? characterFileUrl(character.name, 'texture.png') : '';
+  if (character.thumb) img.src = character.thumb;
+
   const text = document.createElement('div');
-  const name = document.createElement('div');
-  name.className = 'name';
-  name.textContent = character.name;
+  const title = document.createElement('div');
+  title.className = 'name';
+  title.textContent = character.title;
   const meta = document.createElement('div');
   meta.className = 'meta';
-  const rigged = character.files.includes('skeleton.json');
-  meta.textContent = rigged ? 'has a skeleton' : 'no skeleton yet';
-  text.append(name, meta);
+  const faces = ['eyes', 'mouth', 'brows'].map((kind) => `${character.faces[kind].length} ${kind}`).join(', ');
+  meta.textContent = `${character.source === 'shipped' ? 'From the kit' : 'Yours'}. ${character.poses.length} poses, ${faces}.`;
+  text.append(title, meta);
+  if (character.problems.length) {
+    const problems = document.createElement('div');
+    problems.className = 'problems';
+    problems.textContent = character.problems.join(' ');
+    text.append(problems);
+  }
+
   const links = document.createElement('div');
   links.className = 'links';
-  const rig = document.createElement('a');
-  rig.className = 'rig';
-  rig.href = `editor.html?name=${encodeURIComponent(character.name)}`;
-  rig.textContent = rigged ? 'Edit skeleton' : 'Give it a skeleton';
-  links.append(rig);
-  if (rigged) {
-    const play = document.createElement('a');
-    play.className = 'rig';
-    play.href = `play.html?name=${encodeURIComponent(character.name)}`;
-    play.textContent = 'Animate';
-    links.append(play);
-  }
+  const preview = document.createElement('a');
+  preview.className = 'rig';
+  preview.href = `play.html?name=${encodeURIComponent(character.name)}`;
+  preview.textContent = 'Preview';
+  if (!character.poses.length || !character.default_pose) preview.setAttribute('aria-disabled', 'true');
+  links.append(preview);
+
   li.append(img, text, links);
   return li;
+}
+
+// ---------- importing a Krita file ----------
+
+el.drop.addEventListener('click', () => el.file.click());
+el.drop.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); el.file.click(); }
+});
+el.file.addEventListener('change', () => { if (el.file.files[0]) importFile(el.file.files[0]); });
+for (const type of ['dragenter', 'dragover']) {
+  el.drop.addEventListener(type, (event) => { event.preventDefault(); el.drop.classList.add('over'); });
+}
+for (const type of ['dragleave', 'drop']) {
+  el.drop.addEventListener(type, (event) => { event.preventDefault(); el.drop.classList.remove('over'); });
+}
+el.drop.addEventListener('drop', (event) => {
+  const file = [...event.dataTransfer.files].find((f) => f.name.toLowerCase().endsWith('.ora'));
+  if (file) importFile(file);
+  else setStatus('Drop a .ora file exported from Krita.', 'error');
+});
+el.name.addEventListener('input', () => setStatus(''));
+
+async function importFile(file) {
+  const name = (el.name.value.trim() || suggestName(file.name));
+  if (!NAME_PATTERN.test(name)) {
+    setStatus('Pick a name using lowercase letters, numbers and dashes, starting with a letter or number.', 'error');
+    el.name.focus();
+    return;
+  }
+  setStatus(`Importing "${file.name}"...`);
+  try {
+    const summary = await importOra(name, file);
+    await makeThumbnail(summary.character);
+    const ignored = summary.ignored.length ? ` Ignored layers: ${summary.ignored.join(', ')}.` : '';
+    setStatus(`Imported "${name}": ${summary.written.length} layers.${ignored}`, 'ok');
+    el.file.value = '';
+    await refreshList();
+  } catch (error) {
+    setStatus(`Could not import: ${error.message}`, 'error');
+  }
+}
+
+function suggestName(filename) {
+  return filename.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 41);
+}
+
+// The helper has no image library, so the browser makes the thumbnail: the
+// default pose cropped to its opaque box and scaled to 256 px tall.
+async function makeThumbnail(manifest) {
+  if (!manifest || !manifest.default_pose) return;
+  const response = await fetch(characterFileUrl(manifest, `pose.${manifest.default_pose}.png`));
+  if (!response.ok) return;
+  const bitmap = await createImageBitmap(await response.blob());
+  const probe = document.createElement('canvas');
+  probe.width = bitmap.width;
+  probe.height = bitmap.height;
+  const ctx = probe.getContext('2d', { willReadFrequently: true });
+  ctx.drawImage(bitmap, 0, 0);
+  const box = opaqueBox(ctx.getImageData(0, 0, probe.width, probe.height));
+  if (!box) return;
+  const height = 256;
+  const width = Math.max(1, Math.round((box.w * height) / box.h));
+  const thumb = document.createElement('canvas');
+  thumb.width = width;
+  thumb.height = height;
+  thumb.getContext('2d').drawImage(bitmap, box.x, box.y, box.w, box.h, 0, 0, width, height);
+  bitmap.close();
+  const blob = await new Promise((resolve, reject) => thumb.toBlob((b) => (b ? resolve(b) : reject(new Error('PNG encoding failed'))), 'image/png'));
+  await putCharacterFile(manifest.name, 'thumb.png', blob, 'image/png');
+}
+
+function opaqueBox(imageData) {
+  const { width, height, data } = imageData;
+  let minX = width, minY = height, maxX = -1, maxY = -1;
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      if (data[(y * width + x) * 4 + 3] > 8) {
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+  if (maxX < 0) return null;
+  return { x: minX, y: minY, w: maxX - minX + 1, h: maxY - minY + 1 };
+}
+
+function setStatus(text, kind = '') {
+  el.status.textContent = text;
+  el.status.className = `status ${kind}`.trim();
 }
 
 refreshList();

@@ -1,0 +1,127 @@
+{
+  "name": "Boy",
+  "canvas": [
+    690,
+    970
+  ],
+  "baseline": 950,
+  "default_pose": "standing-hands-in-pockets",
+  "faces": {
+    "standing-hands-in-pockets": {
+      "x": 280,
+      "y": 258
+    },
+    "standing-arms-crossed": {
+      "x": 288,
+      "y": 280
+    },
+    "standing-hands-on-hips": {
+      "x": 289,
+      "y": 257
+    },
+    "standing-hands-behind-back": {
+      "x": 288,
+      "y": 270
+    },
+    "standing-looking-down": {
+      "x": 262,
+      "y": 316
+    },
+    "pointing": {
+      "x": 290,
+      "y": 273
+    },
+    "waving": {
+      "x": 290,
+      "y": 284
+    },
+    "shrugging": {
+      "x": 291,
+      "y": 272
+    },
+    "thoughtful": {
+      "x": 299,
+      "y": 240
+    },
+    "shocked": {
+      "x": 300,
+      "y": 292
+    },
+    "sad": {
+      "x": 282,
+      "y": 354
+    },
+    "crying": {
+      "x": 260,
+      "y": 447
+    },
+    "laughing": {
+      "x": 250,
+      "y": 393
+    },
+    "reaching-out": {
+      "x": 284,
+      "y": 517
+    },
+    "kneeling": {
+      "x": 274,
+      "y": 558
+    },
+    "sitting-cross-legged": {
+      "x": 295,
+      "y": 637
+    },
+    "striding": {
+      "x": 283,
+      "y": 262
+    },
+    "running": {
+      "x": 322,
+      "y": 399
+    },
+    "looking-back": {
+      "x": 277,
+      "y": 355
+    }
+  },
+  "no_face_swap": [],
+  "no_mouth_swap": [],
+  "default_face": {
+    "eyes": "open",
+    "mouth": "smile",
+    "brows": null
+  },
+  "face_canvas": [
+    86,
+    89
+  ],
+  "face_parts": {
+    "eyes": [
+      "angry",
+      "angry.front",
+      "narrow",
+      "open",
+      "open-alt.front",
+      "open.front",
+      "wide",
+      "wide.front"
+    ],
+    "mouth": [
+      "gritted",
+      "gritted.front",
+      "o",
+      "o.front",
+      "open",
+      "open.front",
+      "smile",
+      "smile.front"
+    ],
+    "brows": [
+      "angry",
+      "neutral",
+      "sad"
+    ]
+  },
+  "credit": "Original artwork for Toon Studio, CC-BY 4.0, Matt Bedford",
+  "fixture_scale": 0.5
+}

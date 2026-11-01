@@ -19,7 +19,7 @@ from PIL import Image, ImageFont
 ROOT = Path(__file__).resolve().parents[2]
 INCOMING = ROOT / "incoming"
 DATA_KIT = ROOT / "data" / "kit"
-WEB_CHARACTERS = ROOT / "web" / "characters"
+OUT_CHARACTERS = ROOT / "data" / "characters"   # full-resolution kits live here, gitignored; 10_fixture.py makes the shipped copy
 CLASSIFICATION = Path(__file__).resolve().parent / "classification"
 
 IMAGE_SUFFIXES = {".png", ".jpg", ".jpeg", ".webp"}
@@ -36,8 +36,8 @@ def kit_dir(char: str) -> Path:
     return path
 
 
-def web_char_dir(char: str) -> Path:
-    path = WEB_CHARACTERS / char
+def out_char_dir(char: str) -> Path:
+    path = OUT_CHARACTERS / char
     path.mkdir(parents=True, exist_ok=True)
     return path
 

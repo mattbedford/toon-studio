@@ -83,7 +83,7 @@ def main(char: str) -> None:
     canvas_h = int(np.ceil(max_y - min_y))
     canvas_pupil_mid = (-min_x, -min_y)
 
-    out_dir = common.web_char_dir(char)
+    out_dir = common.out_char_dir(char)
     for old in out_dir.glob("eyes.*.png"):
         old.unlink()
     for old in list(out_dir.glob("mouth.*.png")) + list(out_dir.glob("brows.*.png")):
@@ -137,7 +137,7 @@ def head_crop(char: str, pose: str, normalise: dict, margin: float = 1.4) -> tup
     cx = (lm["eye_l"][0] + lm["eye_r"][0]) / 2 if lm.get("eye_l") else normalise["centre_x"]
     box = (round(cx - head * margin * 0.75), round(lm["skull_top"] - head * 0.45),
            round(cx + head * margin * 0.75), round(lm["chin"] + head * 0.35))
-    img = Image.open(common.web_char_dir(char) / f"pose.{pose}.png").convert("RGBA").crop(box)
+    img = Image.open(common.out_char_dir(char) / f"pose.{pose}.png").convert("RGBA").crop(box)
     return img, (box[0], box[1])
 
 
@@ -147,7 +147,7 @@ def overlay_sheet(char, selection, normalise, written, anchors, face_canvas, out
     default = selection["default_pose"]
     anchor = anchors[default]
     base, origin = head_crop(char, default, normalise)
-    out_dir = common.web_char_dir(char)
+    out_dir = common.out_char_dir(char)
     names = {t: sorted(n for n, w in written.items() if w["type"] == t) for t in ("eyes", "mouth", "brows")}
     defaults = {"eyes": "eyes.open.png", "mouth": "mouth.smile.png" if "mouth.smile.png" in names["mouth"] else names["mouth"][0]}
     cells = [("original", [])]
@@ -178,7 +178,7 @@ def overlay_sheet(char, selection, normalise, written, anchors, face_canvas, out
 
 def poses_sheet(char, normalise, anchors, out: Path) -> None:
     """Every talk-capable pose's head with the default face (open eyes, smile, neutral brows) at its own anchor."""
-    out_dir = common.web_char_dir(char)
+    out_dir = common.out_char_dir(char)
     default_parts = [n for n in ("eyes.open.png", "mouth.smile.png", "brows.neutral.png") if (out_dir / n).exists()]
     cells = []
     for pose, anchor in anchors.items():

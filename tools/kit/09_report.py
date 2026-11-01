@@ -34,7 +34,7 @@ def main(char: str) -> None:
     normalise = common.read_json(kit / "06_normalise.json")
     faces = common.read_json(kit / "07_faces.json")
     colour = common.read_json(kit / "05_colour" / "colour-match.json")
-    character = common.read_json(common.web_char_dir(char) / "character.json")
+    character = common.read_json(common.out_char_dir(char) / "character.json")
     by_slug = {p["slug"]: p for p in poses_doc["poses"]}
 
     lines = [f"# {char}: kit report", ""]
@@ -107,7 +107,7 @@ def main(char: str) -> None:
     lines += ["## Step 7 (face sheet slicing)", "", demote_headings(read_text(kit / "faces" / "REPORT-faces.md"))]
 
     text = "\n".join(lines)
-    out = common.web_char_dir(char) / "REPORT.md"
+    out = common.out_char_dir(char) / "REPORT.md"
     out.write_text(text, encoding="utf-8")
     print(f"{char}: {out} ({len(text.splitlines())} lines)")
 

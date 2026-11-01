@@ -1,6 +1,0 @@
-{
-  "motions": [
-    { "id": "wave", "name": "Wave hello", "file": "wave.json" },
-    { "id": "jump", "name": "Jump", "file": "jump.json" }
-  ]
-}

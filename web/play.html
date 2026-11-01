@@ -3,31 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Animate</title>
+  <title>Preview</title>
   <link rel="stylesheet" href="css/app.css">
   <link rel="icon" href="data:,">
 </head>
 <body class="editor-page">
   <header class="topbar editor-bar">
     <a class="back" href="/">Toon Studio</a>
-    <h1 id="title">Animate</h1>
+    <h1 id="title">Preview</h1>
     <div class="bar-actions">
       <span id="status" class="status" role="status"></span>
-      <a id="edit-link" class="button-link" href="#">Edit skeleton</a>
     </div>
   </header>
 
   <main class="player">
     <div class="player-stage" id="stage-wrap"></div>
-
-    <div class="player-controls">
-      <label class="field inline">
-        <span>Motion</span>
-        <select id="motion" aria-label="Motion"></select>
-      </label>
-      <button id="play" class="primary" type="button">Pause</button>
-      <label class="check"><input type="checkbox" id="show-bones"> Show bones</label>
-    </div>
+    <p class="hint" id="caption"></p>
   </main>
 
   <script src="vendor/pixi/pixi.min.js"></script>

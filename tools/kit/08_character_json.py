@@ -33,14 +33,15 @@ def main(char: str) -> None:
     kit = common.kit_dir(char)
     normalise = common.read_json(kit / "06_normalise.json")
     faces = common.read_json(kit / "07_faces.json")
-    out_dir = common.web_char_dir(char)
+    out_dir = common.out_char_dir(char)
 
     parts = {t: sorted(n.split(".", 1)[1].rsplit(".", 1)[0] for n, p in faces["parts"].items() if p["type"] == t)
              for t in ("eyes", "mouth", "brows")}
     default_face = {
         "eyes": pick_default(parts["eyes"], ["open"]),
         "mouth": pick_default(parts["mouth"], ["closed", "smile"]),
-        "brows": pick_default(parts["brows"], ["neutral"]),
+        # The sheets draw the eyebrows into every eyes part, so no brows layer is overlaid by default.
+        "brows": None,
     }
     no_mouth_swap = selection.get("no_mouth_swap", [])
     document = {

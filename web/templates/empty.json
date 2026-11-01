@@ -1,7 +1,0 @@
-{
-  "id": "empty",
-  "name": "Just a body, I will add the rest",
-  "joints": [
-    { "id": "body", "name": "Body", "x": 0.50, "y": 0.55, "parent": null, "landmark": "mid_hip" }
-  ]
-}

@@ -72,7 +72,7 @@ def transform_point(point, scale: float, offset: tuple[float, float]):
 
 
 def place(character: dict, canvas: dict) -> dict:
-    out_dir = common.web_char_dir(character["char"])
+    out_dir = common.out_char_dir(character["char"])
     report = {"canvas": [canvas["width"], canvas["height"]], "baseline": canvas["baseline"],
               "centre_x": canvas["centre_x"], "reference_head_px": character["ref_head"], "poses": {}}
     ref_total = None
@@ -120,7 +120,7 @@ def place(character: dict, canvas: dict) -> dict:
 
 
 def contact_sheet(character: dict, canvas: dict, out: Path) -> None:
-    out_dir = common.web_char_dir(character["char"])
+    out_dir = common.out_char_dir(character["char"])
     cell_h = 520
     scale = cell_h / canvas["height"]
     cell_w = round(canvas["width"] * scale)
@@ -164,7 +164,7 @@ def main(chars: list[str]) -> None:
             others = {k: round(v / heights[character["char"]], 3) for k, v in heights.items() if k != character["char"]}
             report["height_ratio_to_others"] = others
         common.write_json(common.kit_dir(character["char"]) / "06_normalise.json", report)
-        contact_sheet(character, canvas, common.web_char_dir(character["char"]) / "contact-sheet-normalised.png")
+        contact_sheet(character, canvas, common.out_char_dir(character["char"]) / "contact-sheet-normalised.png")
         print(character["char"], "canvas", canvas, "shared" if shared else "own canvas")
         for pose, entry in report["poses"].items():
             flag = "  <-- " + entry["height_disagreement"] if "height_disagreement" in entry else ""

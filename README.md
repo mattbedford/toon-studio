@@ -1,50 +1,71 @@
 # Toon Studio
 
-A small, fully offline paper-puppet cartoon studio that runs in your browser from a folder on your own Linux machine.
+A small, fully offline story-video composer that runs in your browser from a folder on your own Linux machine.
 
-Draw a character on paper, photograph it, drop the photo in. Place the joints yourself (you know better than any computer how many your character has). The studio removes the paper, cuts the drawing along the bones, and gives you a puppet that bends. Act its movements out in front of a webcam, record its lines, pick a background, and export a finished cartoon as an MP4.
+You write a story, voice it, and stage it: a small cast of characters appear in a scene, hold a pose, change expression, say a line; a camera pans, zooms, holds and cuts; a narrator tells the story. The result is a narrated story video, 3 to 5 minutes, 16:9, in the style of narrated-story channels, exported as an MP4.
 
 No accounts, no cloud, no API keys, no outbound network traffic, no Docker. One script, one browser tab.
 
 It was built for a 13-year-old learning animation, and the design follows one rule:
 
-**Authorship stays with the animator. Only the labour is delegated.**
+**Authorship stays with her. Only the labour is delegated.**
 
-The drawings, where the joints go, the voice, the timing, the staging, the story and the movements are all hers. The software does the scissors-and-glue work: removing the paper, cutting along the skeleton, bending, timing mouth shapes to speech, compositing onto a background, and stitching shots into a film. There is no image generation and nothing that draws for her.
+The story, the script, the voice, which character stands where, which pose, which expression, when it changes, where the camera goes and when it cuts: all hers. Later, the character art itself. The software does the scissors-and-glue work: compositing, flapping a mouth to her voice, rendering, encoding. There is no image, text or video generation anywhere in the app. The test for any feature: does it execute her decision, or make one for her? If the latter, it is out.
 
 ## Status
 
-Being rebuilt step by step after a first attempt proved too heavy (see "History" below). Each step is ticked when it produces something you can click.
+Version 1 is being built step by step. Each step is ticked when it produces something you can click.
 
-- [x] 1. Local helper with a strict Content-Security-Policy; drop in a photo; remove the paper to alpha with a slider; save a character
-- [x] 2. Joint editor: templates, drag, add, delete, rename; wiggle preview
-- [x] 3. Auto-cut into pieces along the bones, pen and eraser to fix the cut, puppet that turns at its joints, two preset motions; first cartoon
-- [ ] 4. Webcam performance capture (MediaPipe in the browser), smoothing; she acts, it moves
-- [ ] 5. Lip-sync (Rhubarb) with hand-drawn mouth shapes
-- [ ] 6. Backgrounds, shots, voice track, export to MP4
-- [ ] 7. Alternate views per body part, chosen per shot
+- [x] 1. Prune the old rig; the character folder format in the helper with a manifest and validation; the Krita `.ora` importer; one kit character shipped; a preview page
+- [ ] 2. Stage: a single shot with a background, characters dropped in, positioned and scaled, pose and expression pickers, breathe and bob; save and reopen
+- [ ] 3. Timeline and keyframes: multiple shots, a timeline where a click and a change become a keyframe; scrub and play
+- [ ] 4. Camera: a rectangle per shot with keyframes, ease-in-out, push-in and pan presets
+- [ ] 5. Voice: record narration in the browser or drop a file in; tag a clip to a character for amplitude mouth-flap
+- [ ] 6. Export: frames from the same renderer, muxed with audio by ffmpeg into an MP4
+- [ ] 7. Later, only if asked: walk-on and walk-off, Rhubarb lip-sync, a jointed rig as her next learning project
 
 ## How it works
 
-| Step | What the animator does | What the software does |
+| Step | What she does | What the software does |
 |---|---|---|
-| Character | Draws a figure on paper, photographs it, drops the photo in | Removes the paper so the drawing has a transparent background |
-| Skeleton | Picks a template or starts empty, drags joints onto the drawing, adds or removes some | Nothing. This is her call. A wiggle preview shows whether a joint is in the right place. |
-| Pieces | Checks the cut in the Pieces view, pulls the puppet apart to see every part, and paints any pixel that landed in the wrong piece back where it belongs | Cuts the drawing into one piece per bone, each turning about its joint, with a small overlap at every joint so nothing shows a gap |
-| Performance | Acts the movement out in front of the webcam | Tracks body landmarks in the browser and copies each limb's angle onto the puppet, smoothed. Video frames never leave the tab. |
-| Voice | Records the line with a microphone | Rhubarb Lip Sync works out which mouth shape is needed when |
-| Mouths | Draws a few mouth shapes | Swaps them in at the right moments |
-| Views | Draws a side view or a front view when a shot needs one | Swaps the part per shot. Mirroring is free. |
-| Film | Orders the shots, picks backgrounds | ffmpeg stitches frames and audio into one MP4 |
+| Cast | Picks characters from the kit, or draws her own in Krita and imports them | Reads the character folder, checks it, shows what poses and expressions it has |
+| Stage | Picks a background, drops characters in, places and scales them, picks a pose and an expression | Composites them; adds a subtle breathe and bob so a still character does not look frozen |
+| Timeline | Orders the shots, sets durations, clicks a time and changes a pose, an expression or the camera | Records the change as a keyframe; snaps or crossfades between expressions |
+| Camera | Frames each shot: hold, push in, pan | Eases the camera rectangle between keyframes |
+| Voice | Records the narration and any lines, tags a line to the character saying it | Flaps that character's mouth when her voice is above a threshold. Untagged audio moves no mouths. |
+| Film | Presses export | Renders every frame with the same renderer and hands them to ffmpeg with the audio |
+
+Characters do not walk or move their limbs in version 1. "Appear, emote, speak, camera moves, cut" is the scope. Narrated story videos are carried by faces, staging, camera and voice; the characters are mostly still.
+
+## Characters
+
+A character is a folder of plain PNG files and one JSON file. Shipped characters live in `web/characters/<name>/`; hers live in `data/characters/<name>/`, which git ignores.
+
+```
+<name>/
+  character.json
+  pose.standing.png  pose.pointing.png  pose.sitting.png ...
+  eyes.open.png  eyes.closed.png  eyes.side.png ...
+  mouth.closed.png  mouth.open.png  mouth.smile.png ...
+  brows.neutral.png  brows.up.png ...
+  thumb.png
+```
+
+Every pose is a complete picture of the whole character on the same canvas, so nothing can ever look broken. The face parts are small images that sit on top of a pose at an anchor given in `character.json`; swapping an expression swaps one image. Anything missing is simply unavailable in the app, never an error: a character with one pose and no brows is valid.
+
+The repo ships one kit character, the boy, at half resolution. The full-resolution kits (a boy and a girl, 19 and 21 poses, with three-quarter and front face sets) are built from source art by the scripts in `tools/kit/`, which document every step from raw image to finished folder.
+
+### Drawing your own in Krita
+
+Draw each pose and each face part on its own layer, named exactly like the files above without the extension: `pose.standing`, `eyes.open`, `mouth.closed`, `brows.neutral`. Export as OpenRaster (`.ora`) and drop the file on the front page. Layers with other names are ignored, so sketch layers can stay in the file. Her learning path, in order: compose with the kit; open a kit pose in Krita and redraw an outfit; draw a face set; draw a whole character.
 
 ## Requirements
 
 - Linux on x86-64. Developed on LMDE 7 (Debian 13). Other distributions should work.
 - Python 3.11 or newer, as shipped by the distro. No packages to install.
-- `ffmpeg` from your package manager (`sudo apt install ffmpeg`).
-- Rhubarb Lip Sync, downloaded once by `tools/get-rhubarb.sh` (from step 5 onwards).
+- `ffmpeg` from your package manager (`sudo apt install ffmpeg`), from step 6 onwards.
 - A recent Firefox or Chromium.
-- A webcam and a microphone, for performance capture and voice. Optional if you only use preset motions.
+- A microphone, for narration.
 
 ## Quick start
 
@@ -54,26 +75,24 @@ cd toon-studio
 ./run.sh
 ```
 
-The script starts the helper on `http://127.0.0.1:8765` and opens it in your browser. Stop it with `./run.sh stop`. Set `TOON_PORT` to use a different port.
+The script starts the helper on `http://127.0.0.1:8765` and opens it in your browser. Stop it with `./run.sh stop`. Set `TOON_PORT` to use a different port. After changing `serve.py`, stop and start again; the helper does not reload itself.
 
 ## Running the tests
 
 ```bash
-python3 -m unittest discover -s tests      # the helper: routes, headers, path checks, no outbound code
-node --test tests/*.test.mjs               # the pure browser modules: skeleton model, bone regions
+python3 -m unittest discover -s tests -v
 ```
 
-Node is only needed for the second line, and only to run tests. The app itself needs no Node.
+The tests boot the real helper on a random port with temporary folders and talk to it over HTTP: the routes, the headers, path escapes, the manifest a character folder produces, the `.ora` importer (with files the tests build themselves), and the guardrails below. The shipped character must pass its own validator.
 
 ## Privacy and safety, by construction
 
 This project is public and a child uses the result, so the properties below are built in rather than promised.
 
-- **Nothing leaves the machine.** The helper listens on 127.0.0.1 only and contains no HTTP client code at all. Both are checked by tests, so a change that broke either would fail the test run. (Kernel-level network denial for an unprivileged process is not something Linux offers without root, so this guarantee is made in code and tests rather than by a firewall.)
+- **Nothing leaves the machine.** The helper listens on 127.0.0.1 only and contains no HTTP client code at all. Both are checked by tests, so a change that broke either would fail the test run.
 - **The page cannot phone home either.** Every response carries a strict Content-Security-Policy, so the browser refuses to load a script, font, image or request from anywhere but the local helper. There are no CDNs; every library is in `web/vendor/` with its version, licence and checksum listed in `web/vendor/VENDOR.md`.
-- **Webcam frames stay in the browser.** Pose tracking runs in the tab. Only joint coordinates are kept.
-- **No generative content.** There is no image, text or video generation anywhere in the stack, so there is nothing to moderate.
-- **Her work is never filtered and never committed.** Everything personal lives in `data/`, which is ignored by git.
+- **No generative content.** There is no image, text or video generation anywhere in the stack.
+- **Her work is never committed.** Everything personal lives in `data/`, which is ignored by git.
 
 If you fork this and want to add anything that talks to a network, please keep it behind an explicit opt-in and say so loudly in the UI.
 
@@ -81,8 +100,6 @@ If you fork this and want to add anything that talks to a network, please keep i
 
 - `web/backgrounds/` holds a small starter pack of CC0 scenes that ships with the repo. Sources are in `web/backgrounds/CREDITS.md`.
 - `data/backgrounds/` is yours. Drop in anything you have drawn, photographed or bought. Subfolders become categories in the picker. This folder is ignored by git, so purchased packs are safe here.
-
-PNG, JPEG and WebP are accepted at any size. At render time an image is scaled to fill the 1280x720 frame and cropped at the centre.
 
 ## Moving it to another machine
 
@@ -99,28 +116,30 @@ rsync -a old-machine:~/toon-studio/data/ ./data/
 
 ```
 toon-studio/
-  serve.py         # the helper: static files, strict CSP, data read/write, Rhubarb and ffmpeg
+  serve.py         # the helper: static files, strict CSP, character manifests, .ora import, later ffmpeg
   run.sh           # starts and stops the helper, opens the browser
-  tools/           # get-rhubarb.sh; the Rhubarb binary lands here, ignored by git
-  web/             # the app: index.html, js/, css/, vendor/, backgrounds/, samples/, templates/
-  tests/           # unittest for the helper; small browser-run tests for the app
-  data/            # yours: characters, recordings, shots, exports, backgrounds (ignored by git)
+  tools/kit/       # builds the character kit from source art, one script per step
+  web/             # the app: index.html, play.html, js/, css/, vendor/, backgrounds/, characters/
+  tests/           # unittest for the helper
+  data/            # yours: characters, projects, recordings, exports, backgrounds (ignored by git)
 ```
-
-A character on disk is one folder under `data/characters/<name>/` holding plain files: the original photo, the paper-removed texture, a JSON skeleton, a `parts/` folder with one PNG per piece plus a JSON manifest of pivots, and a small grey PNG recording any pen and eraser fixes. Nothing proprietary; open them in any other tool.
 
 ## History
 
-The first version wrapped Meta's Animated Drawings and its TorchServe model server in Docker. It worked, but it needed two containers, 4.6 GB of images, a 2023-era Python and Torch stack, and the models were used once per character to guess joints the animator then had to correct anyway. The current design keeps the good idea, a single drawing bent by a skeleton via a mesh, and does it in the browser with no containers and no models.
+Toon Studio has been rebuilt twice.
+
+The first version wrapped Meta's Animated Drawings and its TorchServe model server in Docker: photograph a paper drawing, let a model guess the joints, bend the drawing with a mesh. It worked, but it needed two containers, 4.6 GB of images and a 2023-era Python and Torch stack, and the model's guesses had to be corrected by hand anyway.
+
+The second version kept the puppet idea and moved it into the browser: paper removal, a joint editor with templates, an automatic cut into pieces along the bones, a pen and eraser to fix the cut, and a rigid-piece player with preset motions, all with a standard-library Python helper and PixiJS. It also worked, and it taught the lesson that led to this version: the narrated story video format never needed limb rigging. Those videos are carried by faces, staging, camera and voice, and the characters are mostly still. The effort was going into the wrong place. That code lives on in the `legacy/rig` branch.
+
+The current design replaces the rig with whole-body pose drawings plus face swap sets, and the animation tool with a shot composer: closer to a slideshow with a camera and a cast than to an animation program.
 
 ## Built on
 
 - [PixiJS](https://pixijs.com/) (MIT): rendering.
-- [MediaPipe](https://github.com/google-ai-edge/mediapipe) Pose Landmarker (Apache 2.0): in-browser body tracking.
-- [Rhubarb Lip Sync](https://github.com/DanielSWolf/rhubarb-lip-sync) (MIT): speech to mouth shapes.
-- [ffmpeg](https://ffmpeg.org/) (LGPL/GPL): encoding and assembly.
+- [ffmpeg](https://ffmpeg.org/) (LGPL/GPL): encoding and assembly, from step 6.
 - Starter backgrounds from [Kenney](https://kenney.nl/) and [free-images.com](https://free-images.com/), all CC0. Full list in `web/backgrounds/CREDITS.md`.
-- Sample drawing from the [Animated Drawings](https://github.com/facebookresearch/AnimatedDrawings) example set (MIT).
+- The kit characters are original artwork for Toon Studio, CC-BY 4.0, Matt Bedford.
 
 ## Licence
 
