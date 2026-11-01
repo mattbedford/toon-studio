@@ -9,6 +9,9 @@ data/backgrounds/*
 !data/backgrounds/.gitkeep
 !data/backgrounds/README.md
 
+# ---- Character kit: untouched originals copied next to each kit character (too big for the repo for now) ----
+web/characters/*/SOURCE/
+
 # ---- Secrets and local config ----
 .env
 .env.*

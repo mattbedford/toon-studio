@@ -1,0 +1,30 @@
+{
+  "default_pose": "standing-hands-in-pockets",
+  "poses": {
+    "standing-hands-in-pockets": "blond-anime-boy-on-magenta",
+    "standing-arms-crossed": "confident-blond-anime-boy-against-magenta",
+    "standing-hands-on-hips": "confident-blond-anime-character-on-magenta",
+    "standing-hands-behind-back": "friendly-blond-anime-boy-in-smart-casual-attire",
+    "standing-looking-down": "thoughtful-blond-anime-boy",
+    "pointing": "blond-anime-boy-pointing-confidently",
+    "waving": "blond-anime-boy-waving-cheerfully",
+    "shrugging": "puzzled-blond-anime-boy-shrugging",
+    "thoughtful": "thoughtful-blond-boy-on-magenta",
+    "shocked": "shocked-blond-anime-boy-2",
+    "sad": "shocked-and-sad-anime-panels-3-p2",
+    "crying": "crying-blond-boy-on-pink-background",
+    "laughing": "joyful-blond-anime-boy-laughing",
+    "reaching-out": "blond-anime-boy-reaching-out",
+    "kneeling": "confident-kneeling-anime-boy-3",
+    "sitting-cross-legged": "blond-anime-boy-on-magenta-background",
+    "striding": "blond-anime-boy-striding-forward",
+    "running": "dynamic-blond-anime-runner",
+    "looking-back": "smiling-blond-anime-boy-looking-back"
+  },
+  "flags": {
+    "reaching-out": "colour and shading differ from the rest of the kit and could not be matched automatically; fix in an art program",
+    "standing-looking-down": "heavier shading than the rest of the kit; check by eye, fix in an art program if it stands out",
+    "sad": "only exists as a small panel figure, upscaled in step 6; expect softer lines"
+  },
+  "name": "Boy"
+}

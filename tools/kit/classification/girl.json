@@ -1,0 +1,462 @@
+[
+  {
+    "slug": "anime-girl-looking-over-her-shoulder",
+    "name": "looking-back",
+    "facing": "back",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Back three-quarter, head turned over the shoulder to the viewer, closed smile. Primary of the looking-back pair (full size); #32 is the sheet version."
+  },
+  {
+    "slug": "anime-girl-presenting-on-magenta",
+    "name": "presenting",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "One hand on hip, other arm extended palm-up toward screen-right."
+  },
+  {
+    "slug": "anime-girl-sprinting-on-magenta-5",
+    "name": "running",
+    "facing": "right",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Lighter colour grading than the standing set (orange-red hoodie, lighter hair). Drop shadow residue (1996 px). Running group: #3, #23, #24, #25, #26, #27, #29, #38; proposed primary #26 (normal colours, full size)."
+  },
+  {
+    "slug": "anime-girl-with-long-brown-hair",
+    "name": "back-view",
+    "facing": "back",
+    "face": "back",
+    "talk_capable": false,
+    "eyes_open": "n/a",
+    "mouth_closed": "n/a",
+    "notes": "Straight back view, no face. Primary of the back-view pair (full size); #33 is the sheet version."
+  },
+  {
+    "slug": "anime-girls-cheerful-shocked-and-sad-moments-1-p1",
+    "name": "sitting-on-heels",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Top panel of the stacked sheet, drawn smaller; legs swung to one side, hands on lap, open smile. Primary for this pose should be #37 (full size)."
+  },
+  {
+    "slug": "anime-girls-cheerful-shocked-and-sad-moments-1-p2",
+    "name": "surprised",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Middle panel, drawn smaller; hands at the mouth, wide eyes, sparkle marks kept. Primary should be #42 (full size)."
+  },
+  {
+    "slug": "anime-girls-cheerful-shocked-and-sad-moments-1-p3",
+    "name": "sad",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Bottom panel, drawn smaller; hugging her own arm, head down, eyes looking down. Primary should be #40 (full size)."
+  },
+  {
+    "slug": "chatgpt-image-nov-1-2026-11-00-23-am",
+    "name": "sitting-cross-legged",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Byte-identical to 'Cross-Legged Anime Girl in Burgundy Hoodie.png'; the generic filename sorted first so the slug is the ugly one. Hands clasped between the legs."
+  },
+  {
+    "slug": "cheerful-anime-girl-pointing-right",
+    "name": "pointing",
+    "facing": "right",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Points to screen-right, other hand on hip, open smile."
+  },
+  {
+    "slug": "cheerful-anime-girl-waving",
+    "name": "waving",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Right hand raised, open smile."
+  },
+  {
+    "slug": "cheerful-anime-girl-in-motion-1",
+    "name": "striding",
+    "facing": "right",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Walking to screen-right. Lighter colour grading (orange hoodie, lighter hair). Drop shadow residue (6509 px). #28 is the same pose in the normal colours but panel-sized; choose by whether the colour variant is acceptable."
+  },
+  {
+    "slug": "confident-anime-girl-in-magenta-1",
+    "name": "standing-hands-on-hips",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Both hands on hips, open smile. Only sprite of this pose. Source file 'Confident Anime Girl in Magenta (1).png'."
+  },
+  {
+    "slug": "confident-anime-girl-in-magenta-1-alt",
+    "name": "standing-arms-crossed",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Source file 'Confident Anime Girl in Magenta-1.png' (slug suffixed -alt to avoid a collision with the (1) file). Arms-crossed group: #13 to #22, all near-identical; proposed primary #17."
+  },
+  {
+    "slug": "confident-anime-girl-in-magenta-4",
+    "name": "standing-arms-crossed-2",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "1024x1536 render, figure slightly smaller. Near-duplicate of #17."
+  },
+  {
+    "slug": "confident-anime-girl-in-maroon-hoodie-6",
+    "name": "standing-arms-crossed-3",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "1024x1536 render. Near-duplicate of #17."
+  },
+  {
+    "slug": "confident-anime-girl-in-maroon-hoodie-8",
+    "name": "standing-arms-crossed-4",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Near-duplicate of #17."
+  },
+  {
+    "slug": "confident-anime-girl-in-red-hoodie-3",
+    "name": "standing-arms-crossed-5",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Proposed primary of the arms-crossed group: full size, clean lines, neutral closed smile."
+  },
+  {
+    "slug": "confident-anime-girl-in-red-hoodie-9",
+    "name": "standing-arms-crossed-6",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Near-duplicate of #17."
+  },
+  {
+    "slug": "confident-anime-girl-in-red-hoodie",
+    "name": "standing-arms-crossed-7",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Kept its own alpha (matte peaks at 254). Figure drawn smaller and the face reads slightly younger. Near-duplicate of #17."
+  },
+  {
+    "slug": "confident-anime-girl-on-magenta-7",
+    "name": "standing-arms-crossed-8",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Near-duplicate of #17."
+  },
+  {
+    "slug": "confident-anime-girl-with-crossed-arms-2",
+    "name": "standing-arms-crossed-9",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "1024x1536 render. Near-duplicate of #17."
+  },
+  {
+    "slug": "confident-girl-on-magenta-background-5",
+    "name": "standing-arms-crossed-10",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "1024x1536 render. Near-duplicate of #17."
+  },
+  {
+    "slug": "dynamic-anime-girl-running-2-1",
+    "name": "running-2",
+    "facing": "right",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Lighter colour grading. Drop shadow residue (12745 px). Near-duplicate of #26."
+  },
+  {
+    "slug": "dynamic-girl-running-on-magenta-4",
+    "name": "running-3",
+    "facing": "right",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Lighter colour grading. Drop shadow residue (9884 px). Near-duplicate of #26."
+  },
+  {
+    "slug": "energetic-anime-girl-running-against-magenta-6",
+    "name": "running-4",
+    "facing": "right",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Hair has a pink cast on top (magenta painted into the art, not a keying fringe). Drop shadow residue (2396 px). Near-duplicate of #26."
+  },
+  {
+    "slug": "energetic-anime-girl-running-1-1",
+    "name": "running-5",
+    "facing": "right",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Normal colours, full size. Proposed primary of the running group. Drop shadow residue (11921 px)."
+  },
+  {
+    "slug": "energetic-anime-girl-running-3-1",
+    "name": "running-6",
+    "facing": "right",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Normal colours, full size; interchangeable with #26. Drop shadow residue (10296 px)."
+  },
+  {
+    "slug": "four-moods-of-an-anime-girl-p1",
+    "name": "striding-2",
+    "facing": "right",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Top-left panel of the 2x2 sheet, drawn smaller, normal colours. Near-duplicate of #11. Shadow residue (488 px)."
+  },
+  {
+    "slug": "four-moods-of-an-anime-girl-p2",
+    "name": "running-7",
+    "facing": "right",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Top-right panel, drawn smaller. Near-duplicate of #26."
+  },
+  {
+    "slug": "four-moods-of-an-anime-girl-p3",
+    "name": "laughing",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": false,
+    "mouth_closed": false,
+    "notes": "Bottom-left panel, drawn smaller; eyes closed, mouth open, leaning forward with hands on knees, sparkle marks kept. Only laughing sprite."
+  },
+  {
+    "slug": "four-moods-of-an-anime-girl-p4",
+    "name": "crying",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": false,
+    "mouth_closed": false,
+    "notes": "Bottom-right panel, drawn smaller; eyes shut, mouth open, fists at the eyes, tear marks kept. Only crying sprite."
+  },
+  {
+    "slug": "four-pose-anime-girl-character-sheet-p1",
+    "name": "looking-back-2",
+    "facing": "back",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "First figure of the four-pose sheet (split on transparent gaps), drawn smaller. Near-duplicate of #1."
+  },
+  {
+    "slug": "four-pose-anime-girl-character-sheet-p2",
+    "name": "back-view-2",
+    "facing": "back",
+    "face": "back",
+    "talk_capable": false,
+    "eyes_open": "n/a",
+    "mouth_closed": "n/a",
+    "notes": "Second figure of the four-pose sheet, drawn smaller. Near-duplicate of #4."
+  },
+  {
+    "slug": "four-pose-anime-girl-character-sheet-p3",
+    "name": "standing-three-quarter",
+    "facing": "right",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Third figure of the four-pose sheet; body turned toward screen-right, hands behind the back, closed smile. Only sprite of this angle."
+  },
+  {
+    "slug": "four-pose-anime-girl-character-sheet-p4",
+    "name": "standing-eyes-closed",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": false,
+    "mouth_closed": false,
+    "notes": "Fourth figure of the four-pose sheet; hands behind the back, eyes closed, open happy mouth."
+  },
+  {
+    "slug": "gentle-smiling-girl-in-maroon-hoodie",
+    "name": "standing",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Hands behind the back, gentle closed smile, full size, clean lines. Proposed default standing pose."
+  },
+  {
+    "slug": "happy-anime-girl-kneeling-on-magenta",
+    "name": "sitting-on-heels-2",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Sitting on her heels, hands between the knees, open smile. Proposed primary for sitting-on-heels (full size). Small shadow residue (161 px)."
+  },
+  {
+    "slug": "joyful-anime-girl-in-motion-7",
+    "name": "running-8",
+    "facing": "right",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Normal colours, full size. Drop shadow residue (1433 px). Near-duplicate of #26."
+  },
+  {
+    "slug": "reaching-forward-in-magenta",
+    "name": "reaching-out",
+    "facing": "right",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Leaning forward, right arm extended toward screen-right, closed smile."
+  },
+  {
+    "slug": "sad-anime-girl-in-a-magenta-setting",
+    "name": "sad-2",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Hugging her own arm, head down, eyes looking down, mouth closed. Proposed primary for sad (full size)."
+  },
+  {
+    "slug": "shrugging-anime-girl-on-magenta",
+    "name": "shrugging",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Palms up, open smile."
+  },
+  {
+    "slug": "surprised-anime-girl-in-red-hoodie",
+    "name": "surprised-2",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Hands at the mouth, wide eyes, sparkle marks kept. Proposed primary for surprised (full size)."
+  },
+  {
+    "slug": "thoughtful-anime-girl-in-casual-streetwear",
+    "name": "thoughtful",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Finger on chin, other arm across the body, eyes looking up to screen-left, mouth slightly open."
+  },
+  {
+    "slug": "three-moods-of-an-anime-girl-2-p1",
+    "name": "sitting-on-heels-3",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "First figure of the three-figure sheet (split on transparent gaps), drawn smaller. Near-duplicate of #37. Shadow residue (2727 px)."
+  },
+  {
+    "slug": "three-moods-of-an-anime-girl-2-p2",
+    "name": "surprised-3",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Second figure of the three-figure sheet, drawn smaller, sparkle marks kept. Near-duplicate of #42. Shadow residue (448 px)."
+  },
+  {
+    "slug": "three-moods-of-an-anime-girl-2-p3",
+    "name": "sad-3",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Third figure of the three-figure sheet, drawn smaller. Near-duplicate of #40. Shadow residue (1092 px)."
+  }
+]

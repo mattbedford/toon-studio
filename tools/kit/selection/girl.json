@@ -1,0 +1,41 @@
+{
+  "default_pose": "standing",
+  "poses": {
+    "standing": "gentle-smiling-girl-in-maroon-hoodie",
+    "standing-hands-on-hips": "confident-anime-girl-in-magenta-1",
+    "standing-arms-crossed": "confident-anime-girl-in-red-hoodie-3",
+    "standing-three-quarter": "four-pose-anime-girl-character-sheet-p3",
+    "standing-eyes-closed": "four-pose-anime-girl-character-sheet-p4",
+    "presenting": "anime-girl-presenting-on-magenta",
+    "pointing": "cheerful-anime-girl-pointing-right",
+    "waving": "cheerful-anime-girl-waving",
+    "shrugging": "shrugging-anime-girl-on-magenta",
+    "thoughtful": "thoughtful-anime-girl-in-casual-streetwear",
+    "surprised": "surprised-anime-girl-in-red-hoodie",
+    "sad": "sad-anime-girl-in-a-magenta-setting",
+    "laughing": "four-moods-of-an-anime-girl-p3",
+    "crying": "four-moods-of-an-anime-girl-p4",
+    "reaching-out": "reaching-forward-in-magenta",
+    "sitting-on-heels": "happy-anime-girl-kneeling-on-magenta",
+    "sitting-cross-legged": "chatgpt-image-nov-1-2026-11-00-23-am",
+    "striding": "cheerful-anime-girl-in-motion-1",
+    "running": "energetic-anime-girl-running-1-1",
+    "looking-back": "anime-girl-looking-over-her-shoulder",
+    "back-view": "anime-girl-with-long-brown-hair"
+  },
+  "colour_match": [
+    "cheerful-anime-girl-in-motion-1",
+    "anime-girl-sprinting-on-magenta-5"
+  ],
+  "flags": {
+    "striding": "colour matched to the standing pose from an orange-hoodie original; check by eye",
+    "laughing": "only exists as a small panel figure, upscaled in step 6; expect softer lines",
+    "crying": "only exists as a small panel figure, upscaled in step 6; expect softer lines",
+    "standing-three-quarter": "from the four-pose sheet, drawn smaller and upscaled in step 6",
+    "standing-eyes-closed": "from the four-pose sheet, drawn smaller and upscaled in step 6"
+  },
+  "no_mouth_swap": [
+    "surprised"
+  ],
+  "name": "Girl"
+}

@@ -1,0 +1,312 @@
+[
+  {
+    "slug": "aloof-blond-anime-boy-in-magenta",
+    "name": "standing-hands-in-pockets",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Kept its own alpha (matte peaks at 254, body 99.6 percent opaque). Flatter, lighter rendering than the rest; head turned slightly to screen-left, sullen look. Primary for this pose should be standing-hands-in-pockets-2 (#8): front face, neutral, matches the main style."
+  },
+  {
+    "slug": "blond-anime-boy-pointing-confidently",
+    "name": "pointing",
+    "facing": "left",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Points to screen-left with the right hand, other fist at side. Primary of the pointing pair: first in order, linework identical to #3."
+  },
+  {
+    "slug": "blond-anime-boy-pointing",
+    "name": "pointing-2",
+    "facing": "left",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Near-duplicate of blond-anime-boy-pointing-confidently (#2); keep #2."
+  },
+  {
+    "slug": "blond-anime-boy-reaching-out",
+    "name": "reaching-out",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Leaning toward the viewer, near hand foreshortened and large; open-mouth grin. Heavier shading than the main set. Purple drop shadow residue under both feet (20072 px)."
+  },
+  {
+    "slug": "blond-anime-boy-striding-forward",
+    "name": "striding",
+    "facing": "left",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Walking to screen-left, smile. Drop shadow residue under the feet (3294 px)."
+  },
+  {
+    "slug": "blond-anime-boy-waving-cheerfully",
+    "name": "waving",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Right hand raised, left hand in pocket. Small motion marks beside the raised hand are kept in the sprite."
+  },
+  {
+    "slug": "blond-anime-boy-on-magenta-background",
+    "name": "sitting-cross-legged",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Hands clasped between the legs. Drop shadow residue under the body (7804 px)."
+  },
+  {
+    "slug": "blond-anime-boy-on-magenta",
+    "name": "standing-hands-in-pockets-2",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Proposed primary for standing-hands-in-pockets: neutral expression, front face, main style. Candidate default pose."
+  },
+  {
+    "slug": "confident-blond-anime-boy-against-magenta",
+    "name": "standing-arms-crossed",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Head turned slightly to screen-left, serious look. Only arms-crossed sprite."
+  },
+  {
+    "slug": "confident-blond-anime-character-on-magenta",
+    "name": "standing-hands-on-hips",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Primary of the three hands-on-hips sprites (#10, #11, #12): first in order; the three are near-identical."
+  },
+  {
+    "slug": "confident-blond-anime-character-1",
+    "name": "standing-hands-on-hips-2",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Near-duplicate of confident-blond-anime-character-on-magenta (#10)."
+  },
+  {
+    "slug": "confident-blond-anime-hero-on-magenta-2",
+    "name": "standing-hands-on-hips-3",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Near-duplicate of confident-blond-anime-character-on-magenta (#10)."
+  },
+  {
+    "slug": "confident-kneeling-anime-boy-3",
+    "name": "kneeling",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Kneeling on both knees, fists on thighs. Primary of the kneeling pair (full size). Drop shadow residue (10862 px)."
+  },
+  {
+    "slug": "crying-blond-boy-on-pink-background",
+    "name": "crying",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": false,
+    "mouth_closed": false,
+    "notes": "Eyes squeezed shut, mouth open, fists at the eyes; floating tear drops are kept in the sprite. Drop shadow residue (8044 px)."
+  },
+  {
+    "slug": "dynamic-blond-anime-runner",
+    "name": "running",
+    "facing": "left",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Running to screen-left, mouth open. Small shadow residue (212 px)."
+  },
+  {
+    "slug": "friendly-blond-anime-boy-in-smart-casual-attire",
+    "name": "standing-hands-behind-back",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Neutral smile, hands behind the back. Colours slightly softer than the main set. Good alternative default pose."
+  },
+  {
+    "slug": "joyful-blond-anime-boy-laughing",
+    "name": "laughing",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": false,
+    "mouth_closed": false,
+    "notes": "Eyes closed, mouth open, body leaning with a hand on the stomach and one on the hip; sparkle marks by the head are kept. Drop shadow residue (8454 px)."
+  },
+  {
+    "slug": "puzzled-blond-anime-boy-shrugging",
+    "name": "shrugging",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Palms up, mouth slightly open."
+  },
+  {
+    "slug": "shocked-blond-anime-boy-2",
+    "name": "shocked",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Hands up, wide eyes, mouth open. Primary of the shocked group (#19, #20, #23, #24, #25, #26, #30): full size, no marks."
+  },
+  {
+    "slug": "shocked-and-sad-anime-panels-3-p1",
+    "name": "shocked-2",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Left panel of the two-panel sheet, figure drawn smaller. Shock spike mark top-left is kept. Near-duplicate of shocked-blond-anime-boy-2 (#19)."
+  },
+  {
+    "slug": "shocked-and-sad-anime-panels-3-p2",
+    "name": "sad",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Head down, arms hanging, frown; eyes open looking down. Right panel of the two-panel sheet, drawn smaller. Primary of the sad pair because it is the larger drawing of the two panel versions; #31 is the alternative."
+  },
+  {
+    "slug": "smiling-blond-anime-boy-looking-back",
+    "name": "looking-back",
+    "facing": "back",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Body turned away and angled to screen-right, head turned over the left shoulder toward the viewer, open smile. Drop shadow residue (6072 px)."
+  },
+  {
+    "slug": "startled-blond-boy-on-magenta-background-1",
+    "name": "shocked-3",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Near-duplicate of shocked-blond-anime-boy-2 (#19)."
+  },
+  {
+    "slug": "startled-blond-boy-on-magenta-4",
+    "name": "shocked-4",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Near-duplicate of shocked-blond-anime-boy-2 (#19)."
+  },
+  {
+    "slug": "startled-blonde-anime-character-on-magenta-1",
+    "name": "shocked-5",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Near-duplicate of shocked-blond-anime-boy-2 (#19) with sparkle marks by the head (kept)."
+  },
+  {
+    "slug": "surprised-blond-anime-character-pose-3",
+    "name": "shocked-6",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Near-duplicate of shocked-blond-anime-boy-2 (#19)."
+  },
+  {
+    "slug": "thoughtful-blond-anime-boy",
+    "name": "standing-hands-in-pockets-looking-down",
+    "facing": "left",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Hands in pockets, head turned down to screen-left, half-lidded eyes, small smile. Heavier shading like #4. Drop shadow residue (5476 px)."
+  },
+  {
+    "slug": "thoughtful-blond-boy-on-magenta",
+    "name": "thoughtful",
+    "facing": "front",
+    "face": "three-quarter",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Hand on chin, other arm across the body."
+  },
+  {
+    "slug": "three-panel-anime-emotion-study-2-p1",
+    "name": "kneeling-2",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Left panel of the three-panel sheet, drawn smaller. Near-duplicate of confident-kneeling-anime-boy-3 (#13). Shadow residue (2568 px)."
+  },
+  {
+    "slug": "three-panel-anime-emotion-study-2-p2",
+    "name": "shocked-7",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": false,
+    "notes": "Middle panel, drawn smaller, sparkle marks kept. Near-duplicate of shocked-blond-anime-boy-2 (#19)."
+  },
+  {
+    "slug": "three-panel-anime-emotion-study-2-p3",
+    "name": "sad-2",
+    "facing": "front",
+    "face": "front",
+    "talk_capable": true,
+    "eyes_open": true,
+    "mouth_closed": true,
+    "notes": "Right panel, drawn smaller. Near-duplicate of shocked-and-sad-anime-panels-3-p2 (#21)."
+  }
+]
